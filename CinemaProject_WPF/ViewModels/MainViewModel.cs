@@ -87,22 +87,24 @@ namespace CinemaProject_WPF.ViewModels
             set { _selectedItem = value; OnPropertyChanged(); }
         }
 
+
         public RelayCommand SelectedItemChangedCommand { get; set; }
         public RelayCommand SearchCommand { get; set; }
         public RelayCommand VideoLoadCommand { get; set; }
         public RelayCommand BuyTicketCommand { get; set; }
 
-        private string _videoId;
-        private async Task Search(string movieName)
+
+        private async void Search(string movieName)
         {
             var searchListRequest = new YouTubeService(new BaseClientService.Initializer()
             {
-                ApiKey = "AIzaSyCj6CNDKnOJEMFXm3Dt5CkBSmkk1cPbt5I",
+                ApiKey = "AIzaSyAP3A7I4GkT-5JRG2J6RPQC4c3nKCge9ls",
                 ApplicationName = this.GetType().ToString()
             }).Search.List("snippet");
             searchListRequest.Q = $"{movieName} trailer";
             searchListRequest.MaxResults = 1;
-            _videoId = (await searchListRequest.ExecuteAsync()).Items[0].Id.VideoId;
+            string _videoId = (await searchListRequest.ExecuteAsync()).Items[0].Id.VideoId;
+            MovieVideoURL = $@"https://www.youtube.com/embed/{_videoId}?&start=5&autoplay=1&controls=0&showinfo=0&rel=0&disablekb=1&iv_load_policy=3&loop=1&modestbranding=1";
         }
 
         public dynamic Data { get; set; }
@@ -129,9 +131,6 @@ namespace CinemaProject_WPF.ViewModels
                         MovieCountry = Data.Country;
                         MovieLanguage = Data.Language;
                         MovieType = Data.Type;
-                        //VideoSearch items = new VideoSearch();
-                        //var video = items.GetVideos($"{MovieTitle} trailer", 1).Result[0];
-                        //MovieVideoURL = video.getUrl();
                         Search(MovieTitle);
                     }
                     catch (Exception) { }
@@ -163,7 +162,7 @@ namespace CinemaProject_WPF.ViewModels
 
         public void GetMovies()
         {
-            string[] movies = { "Thor", "Avengers Endgame", "The Godfather", "Interstellar", "Game Of Thrones", "Venom", "The Maze Runner" };
+            string[] movies = { "Thor", "Avengers Endgame", "The Godfather", "Interstellar", "Game Of Thrones", "Venom", "The Maze Runner", "Joker", "Ironman " };
             foreach (var item in movies)
             {
                 HttpResponseMessage response = new HttpResponseMessage();

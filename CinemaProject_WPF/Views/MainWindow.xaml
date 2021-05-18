@@ -28,7 +28,7 @@
                                 <Border Background="#2D333B" CornerRadius="20" Margin="10" Height="430">
                                     <Canvas>
                                         <Border Background="#E5E5E5" CornerRadius="5" Height="30" Canvas.Top="25" Canvas.Left="25" Width="1080">
-                                            <TextBox Background="#E5E5E5" Margin="8,2" BorderThickness="0" VerticalContentAlignment="Center" FontSize="12" Text="{Binding SearchText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                            <TextBox Background="#E5E5E5" Margin="8,2" BorderThickness="0" VerticalContentAlignment="Center" FontSize="14" Text="{Binding SearchText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="TextChanged">
                                                         <i:InvokeCommandAction Command="{Binding SearchCommand}"/>
@@ -71,10 +71,9 @@
                                         </StackPanel>
                                         <Label Foreground="White" FontSize="28" FontWeight="DemiBold" Margin="855,65,25,400">Trailer</Label>
                                         <Border Width="400" Height="200" Background="White" CornerRadius="10" Canvas.Top="120" Canvas.Right="25">
-                                            <!--<wpf:ChromiumWebBrowser 
+                                            <wpf:ChromiumWebBrowser 
                                                 x:Name="Browser" Width="400" Height="200"
-                                                Address="{Binding MovieVideoURL}" 
-                                                FrameLoadEnd="Browser_FrameLoadEnd"/>-->
+                                                Address="{Binding MovieVideoURL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                         </Border>
 
                                         <Button Canvas.Bottom="35" Canvas.Right="25" Background="#CCA43B" Foreground="Black" Width="400" Height="50"

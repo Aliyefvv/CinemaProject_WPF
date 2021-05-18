@@ -116,7 +116,6 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Repository\Repo.cs" />
     <Compile Include="ViewModels\BuyTicketViewModel.cs" />
-    <Compile Include="ViewModels\ICloseable.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
