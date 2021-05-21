@@ -37,23 +37,26 @@ namespace CinemaProject_WPF.ViewModels
         {
             SignInCommand = new RelayCommand((e) =>
             {
-                if (Email == null) MessageBox.Show("Email can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                else if (Password == null) MessageBox.Show("Passowrd can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                bool find = false;
-                if (DB.Users != null)
-                {
-                    foreach (var user in DB.Users)
-                    {
-                        if (user.Email == Email && user.Password == Password)
-                        {
-                            find = true;
-                            MainWindow mainWindow = new MainWindow();
-                            mainWindow.Show();
-                            CloseAction();
-                        }
-                    }
-                    if(!find)MessageBox.Show("Email or Password is wrong !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                CloseAction();
+                // if (Email == null) MessageBox.Show("Email can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                // else if (Password == null) MessageBox.Show("Passowrd can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                // bool find = false;
+                // if (DB.Users != null)
+                // {
+                //     foreach (var user in DB.Users)
+                //     {
+                //         if (user.Email == Email && user.Password == Password)
+                //         {
+                //             find = true;
+                //             MainWindow mainWindow = new MainWindow();
+                //             mainWindow.Show();
+                //             CloseAction();
+                //         }
+                //     }
+                //     if(!find)MessageBox.Show("Email or Password is wrong !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                // }
             });
 
             SignUpCommand = new RelayCommand((e) =>

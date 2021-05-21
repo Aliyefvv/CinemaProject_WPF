@@ -38,17 +38,20 @@ namespace CinemaProject_WPF.Helper
                  + "\\\\" + ID.ToString() + ".txt", FileMode.Create))
             using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
             {
-                sw.WriteLine($"=====================================");
+                sw.WriteLine($"============================================");
                 sw.WriteLine($" Date : {DateTime.Now.ToLongDateString()} {DateTime.Now.ToLongTimeString()}");
-                sw.WriteLine($"=====================================");
+                sw.WriteLine($"============================================");
                 sw.WriteLine($" Movie Name : {ticket?.MovieName}");
                 sw.WriteLine($" Date : {ticket?.Date}");
                 sw.WriteLine($" Time : {ticket?.Time}");
                 sw.WriteLine($" Ticket Count : {ticket?.TicketCount}");
-                sw.WriteLine($" Ticket Numbers : {ticket?.TicketNumbers}");
-                sw.WriteLine($"-------------------------------------");
+                string nums = "";
+                foreach (var number in ticket?.TicketNumbers)
+                    nums += number.ToString() + ", ";
+                sw.WriteLine($" Ticket Numbers : {nums}");
+                sw.WriteLine($"--------------------------------------------");
                 sw.WriteLine($" TOTAL : {ticket?.Total} azn");
-                sw.WriteLine($"=====================================");
+                sw.WriteLine($"============================================");
             }
         }
     }

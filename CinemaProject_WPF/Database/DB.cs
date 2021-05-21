@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CinemaProject_WPF.Database
-{
+{   
     public static class DB
     {
         public static List<User> Users { get; set; } = new List<User>();

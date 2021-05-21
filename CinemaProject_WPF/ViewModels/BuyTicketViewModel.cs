@@ -66,32 +66,49 @@ namespace CinemaProject_WPF.ViewModels
         public RelayCommand UnCheckedExpensiveSeatCommand { get; set; }
         public RelayCommand BuyTicketCommand { get; set; }
 
+        public void ClickExecute_CheckedCheapSeat(object param)
+        {
+            string name = param as string;
+            Total += 4;
+            TicketCount++;
+            TicketNumbers.Add(Convert.ToInt32(name));
+            MessageBox.Show(name);
+        }
+        public void ClickExecute_UnCheckedCheapSeat(object param)
+        {
+            string name = param as string;
+            Total -= 4;
+            TicketCount--;
+            TicketNumbers.Remove(Convert.ToInt32(name));
+            MessageBox.Show(name);
+        }
+        public void ClickExecute_CheckedExpensiveSeat(object param)
+        {
+            string name = param as string;
+            Total += 7;
+            TicketCount++;
+            TicketNumbers.Add(Convert.ToInt32(name));
+            MessageBox.Show(name);
+        }
+        public void ClickExecute_UnCheckedExpensiveSeat(object param)
+        {
+            string name = param as string;
+            Total -= 7;
+            TicketCount--;
+            TicketNumbers.Remove(Convert.ToInt32(name));
+            MessageBox.Show(name);
+        }
+
         public BuyTicketViewModel(string movieTitle)
         {
             DisplayDateEnd = DateTime.Now.AddMonths(2);
             SelectedDate = DateTime.Now;
             RadioButton3 = true;
             Total = 0;
-            CheckedCheapSeatCommand = new RelayCommand((e) =>
-            {
-                Total += 4;
-                TicketCount++;
-            });
-            UnCheckedCheapSeatCommand = new RelayCommand((e) =>
-            {
-                Total -= 4;
-                TicketCount--;
-            });
-            CheckedExpensiveSeatCommand = new RelayCommand((e) =>
-            {
-                Total += 7;
-                TicketCount++;
-            });
-            UnCheckedExpensiveSeatCommand = new RelayCommand((e) =>
-            {
-                Total -= 7;
-                TicketCount--;
-            });
+            CheckedCheapSeatCommand = new RelayCommand(ClickExecute_CheckedCheapSeat);
+            UnCheckedCheapSeatCommand = new RelayCommand(ClickExecute_UnCheckedCheapSeat);
+            CheckedExpensiveSeatCommand = new RelayCommand(ClickExecute_CheckedExpensiveSeat);
+            UnCheckedExpensiveSeatCommand = new RelayCommand(ClickExecute_UnCheckedExpensiveSeat);
             BuyTicketCommand = new RelayCommand((e) =>
             {
                 Ticket ticket = new Ticket();
@@ -102,6 +119,7 @@ namespace CinemaProject_WPF.ViewModels
                 else if (RadioButton3) ticket.Time = "20:00-22:00";
                 ticket.TicketCount = TicketCount;
                 ticket.Total = Total;
+                ticket.TicketNumbers = TicketNumbers;
                 Helper.File.PrintVaucher(ticket);
                 MessageBox.Show("Thank you for buying tickets. Enjoy it !", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
                 CloseAction();

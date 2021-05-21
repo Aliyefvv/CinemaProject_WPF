@@ -11,15 +11,15 @@
         <Border 
             Name="border"
             Background="WhiteSmoke"
-            Width="200"
+            Width="200" 
             Height="30"
             CornerRadius="4">
             <Grid>
                 <TextBlock
-                    Name="txtblock"
-                    Text="{Binding ElementName=Control, Path=PlaceHolderText}"
+                    Name="txtblock" 
+                    Text="{Binding ElementName=Control, Path=PlaceHolderText}" 
                     Foreground="DimGray" 
-                    Margin="5,3,0,0"
+                    Margin="5,3,0,0" 
                     Padding="4">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
@@ -32,7 +32,7 @@
                         </Style>
                     </TextBlock.Style>
                     <TextBlock.Triggers>
-                        <EventTrigger RoutedEvent="MouseEnter">
+                        <EventTrigger RoutedEvent="GotFocus">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation
@@ -43,7 +43,7 @@
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                        <EventTrigger RoutedEvent="MouseLeave">
+                        <EventTrigger RoutedEvent="LostFocus">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation
@@ -57,20 +57,13 @@
                     </TextBlock.Triggers>
                 </TextBlock>
 
-                <TextBox 
-                    x:Name="txtbox"
-                    Background="Transparent"
-                    Margin="1,0.2"
-                    Padding="4"
-                    BorderThickness="0,0,0,2"
-                    VerticalContentAlignment="Center"
-                    Foreground="DimGray"
+                <TextBox
+                    x:Name="txtbox" 
+                    Margin="1,0.2" 
                     Text="{Binding ElementName=Control,Path=Text}"
-                    BorderBrush="#242F40"
-                    Style="{StaticResource Triggers}">
-
+                    Style="{StaticResource LoginTextBoxStyle}">
                     <TextBox.Triggers>
-                        <EventTrigger RoutedEvent="MouseEnter">
+                        <EventTrigger RoutedEvent="GotFocus">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation
@@ -81,7 +74,7 @@
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                        <EventTrigger RoutedEvent="MouseLeave">
+                        <EventTrigger RoutedEvent="LostFocus">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation
@@ -95,10 +88,9 @@
                     </TextBox.Triggers>
                 </TextBox>
             </Grid>
-
-
+            
             <Border.Triggers>
-                <EventTrigger RoutedEvent="MouseEnter">
+                <EventTrigger RoutedEvent="GotFocus">
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation 
@@ -109,7 +101,7 @@
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
-                <EventTrigger RoutedEvent="MouseLeave">
+                <EventTrigger RoutedEvent="LostFocus">
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation 

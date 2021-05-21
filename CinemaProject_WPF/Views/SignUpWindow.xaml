@@ -26,10 +26,10 @@
         <Grid Grid.Column="1"
               Background="White">
             <Label FontSize="36" FontWeight="DemiBold" Margin="98,35" Foreground="#363636" >Sign Up</Label>
-            <usercontrols:LoginDataTextBoxUC x:Name="txtbx_Name" Text="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceHolderText="Name" Margin="20,0,20,110"/>
-            <usercontrols:LoginDataTextBoxUC x:Name="txtbx_Surname" Text="{Binding Surname,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceHolderText="Surname" Margin="20,60,20,90"/>
-            <usercontrols:LoginDataTextBoxUC x:Name="txtbx_Email" Text="{Binding Email,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceHolderText="Email" Margin="20,50,20,0"/>
-            <usercontrols:LoginDataTextBoxUC x:Name="txtbx_Passoword" Text="{Binding Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceHolderText="Passowrd" Margin="20,130,20,0"/>
+            <usercontrols:LoginDataTextBoxUC x:Name="txtbx_Name" Text="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceHolderText="Name" Margin="5,0,5,110"/>
+            <usercontrols:LoginDataTextBoxUC x:Name="txtbx_Surname" Text="{Binding Surname,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceHolderText="Surname" Margin="5,60,5,90"/>
+            <usercontrols:LoginDataTextBoxUC x:Name="txtbx_Email" Text="{Binding Email,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceHolderText="Email" Margin="5,50,5,0"/>
+            <usercontrols:LoginDataTextBoxUC x:Name="txtbx_Passoword" Text="{Binding Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceHolderText="Passowrd" Margin="5,130,5,0"/>
             <Button x:Name="btn_SignUp" Margin="60,215,60,0" Content="Sign Up" Command="{Binding SignUpCommand}" Style="{StaticResource LoginButtonStyle}"/>
             <Label Background="Transparent" Foreground="#3382EA" Margin="75,310,60,0">Already have an account ?</Label>
             <Button Content="Sign In" Margin="208,285,60,0" Command="{Binding SignInCommand}" Style="{StaticResource MiniLoginButtonStyle}"/>

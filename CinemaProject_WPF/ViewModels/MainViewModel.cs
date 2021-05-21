@@ -108,7 +108,7 @@ namespace CinemaProject_WPF.ViewModels
         }
 
         public dynamic Data { get; set; }
-        HttpClient http = new HttpClient();
+        readonly HttpClient http = new HttpClient();
         public MainViewModel()
         {
             GetMovies();
@@ -131,7 +131,9 @@ namespace CinemaProject_WPF.ViewModels
                         MovieCountry = Data.Country;
                         MovieLanguage = Data.Language;
                         MovieType = Data.Type;
-                        Search(MovieTitle);
+
+                        /// This is for Movie Trailer
+                        // Search(MovieTitle); 
                     }
                     catch (Exception) { }
                 }
