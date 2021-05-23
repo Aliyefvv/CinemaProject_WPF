@@ -35,19 +35,7 @@
             <Label Canvas.Bottom="85" Canvas.Left="90" Style="{StaticResource MovieElements_2_LabelStyle}" Content="{Binding Total}"/>
             <Label Canvas.Bottom="85" Canvas.Left="132" Style="{StaticResource MovieElements_2_LabelStyle}" Content="azn"/>
 
-            <Button Canvas.Bottom="20" Canvas.Right="20" Background="#CCA43B" Foreground="Black" Width="180" Height="50" FontSize="22" FontWeight="DemiBold"
-                    Content="Buy Ticket !" Command="{Binding BuyTicketCommand}">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="7"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Cursor" Value="Hand"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Resources>
-            </Button>
+            <Button Canvas.Bottom="20" Canvas.Right="20" Width="180" Command="{Binding BuyTicketCommand}" Style="{StaticResource BuyTicketButtonStyle}"/>
         </Canvas>
 
         <Grid Grid.Column="1">

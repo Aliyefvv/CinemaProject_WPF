@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace CinemaProject_WPF.Models
 {
-    public class Movie : Entity
+    public class Movie
     {
+        public string ID { get; set; }
         public string Title { get; set; }
         public string IMDB { get; set; }
         public string Year { get; set; }
@@ -19,8 +20,9 @@ namespace CinemaProject_WPF.Models
         public string TrailerLink { get; set; }
 
         public Movie() { }
-        public Movie(dynamic title, dynamic imdb, dynamic year, dynamic genre, dynamic country, dynamic language, dynamic type, dynamic poster, dynamic trailer = null)
+        public Movie(dynamic id, dynamic title, dynamic imdb, dynamic year, dynamic genre, dynamic country, dynamic language, dynamic type, dynamic poster, dynamic trailer = null)
         {
+            ID = id;
             Title = title;
             IMDB = imdb;
             Year = year;

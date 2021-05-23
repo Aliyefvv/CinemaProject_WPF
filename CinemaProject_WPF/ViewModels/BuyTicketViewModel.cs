@@ -72,7 +72,6 @@ namespace CinemaProject_WPF.ViewModels
             Total += 4;
             TicketCount++;
             TicketNumbers.Add(Convert.ToInt32(name));
-            MessageBox.Show(name);
         }
         public void ClickExecute_UnCheckedCheapSeat(object param)
         {
@@ -80,7 +79,6 @@ namespace CinemaProject_WPF.ViewModels
             Total -= 4;
             TicketCount--;
             TicketNumbers.Remove(Convert.ToInt32(name));
-            MessageBox.Show(name);
         }
         public void ClickExecute_CheckedExpensiveSeat(object param)
         {
@@ -88,7 +86,6 @@ namespace CinemaProject_WPF.ViewModels
             Total += 7;
             TicketCount++;
             TicketNumbers.Add(Convert.ToInt32(name));
-            MessageBox.Show(name);
         }
         public void ClickExecute_UnCheckedExpensiveSeat(object param)
         {
@@ -96,7 +93,6 @@ namespace CinemaProject_WPF.ViewModels
             Total -= 7;
             TicketCount--;
             TicketNumbers.Remove(Convert.ToInt32(name));
-            MessageBox.Show(name);
         }
 
         public BuyTicketViewModel(string movieTitle)

@@ -4,7 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CinemaProject_WPF" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        xmlns:local="clr-namespace:CinemaProject_WPF" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        xmlns:map="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF" 
+        xmlns:usercontrols="clr-namespace:CinemaProject_WPF.Views.UserControls"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="700" Width="1200"
@@ -13,9 +16,9 @@
         WindowStartupLocation="CenterScreen"
         Background="White">
     <Grid Background="#363636">
-
         <TabControl TabStripPlacement="Top" Background="#363636">
-            <TabItem Height="50" Width="100" Header="Home" Foreground="#CCA43B" Background="#363636" HorizontalAlignment="Center">
+            <!-- Home -->
+            <TabItem Height="50" Width="100" Header="Home" Foreground="#CCA43B" FontSize="16" Background="#363636" BorderThickness="0">
                 <ScrollViewer Height="{Binding ElementName=MainWindow, Path=ActualHeight}" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
                     <ItemsControl>
                         <Grid>
@@ -76,19 +79,7 @@
                                                 Address="{Binding MovieVideoURL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                         </Border>
 
-                                        <Button Canvas.Bottom="35" Canvas.Right="25" Background="#CCA43B" Foreground="Black" Width="400" Height="50"
-                                                FontSize="22" FontWeight="DemiBold" Content="Buy Ticket !" Command="{Binding BuyTicketCommand}">
-                                            <Button.Resources>
-                                                <Style TargetType="Border">
-                                                    <Setter Property="CornerRadius" Value="7"/>
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="Cursor" Value="Hand"/>
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Resources>
-                                        </Button>
+                                        <Button Canvas.Bottom="35" Canvas.Right="25" Command="{Binding BuyTicketCommand}" Style="{StaticResource BuyTicketButtonStyle}"/>
                                     </Canvas>
                                 </Border>
                             </Grid>
@@ -125,9 +116,109 @@
                     </ItemsControl>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Height="50" Width="100" Header="Cinemas" Foreground="#CCA43B" FontSize="16" Background="#363636" BorderThickness="0"></TabItem>
+            <!-- Cinemas -->
+            <TabItem Height="50" Width="100" Header="Cinemas" Foreground="#CCA43B" FontSize="16" Background="#363636" BorderThickness="0">
+                <map:Map CredentialsProvider="{Binding Provider}" ZoomLevel="15" Mode="Road" Center="40.374941366218536, 49.844496887824945" Margin="10">
+                    <map:MapItemsControl ItemsSource="{Binding Pushpins}">
+                        <map:MapItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <map:Pushpin Location="{Binding Location}" Template="{StaticResource PushPinStyle}">
+                                    <map:Pushpin.ToolTip>
+                                        <StackPanel Width="220" Height="180" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Label FontSize="18" FontWeight="DemiBold" Content="{Binding Name}"/>
+                                            <Image Source="{Binding ImagePath}" Stretch="Uniform" Width="250" Height="150"/>
+                                        </StackPanel>
+                                    </map:Pushpin.ToolTip>
+                                </map:Pushpin>
+                            </DataTemplate>
+                        </map:MapItemsControl.ItemTemplate>
+                    </map:MapItemsControl>
+                </map:Map>
+            </TabItem>
+            <!-- About Us -->
             <TabItem Height="50" Width="100" Header="About Us" Foreground="#CCA43B" FontSize="16" Background="#363636" BorderThickness="0"></TabItem>
-            <TabItem Height="50" Width="100" Header="Profile" Foreground="#CCA43B" FontSize="16" Background="#363636" BorderThickness="0"></TabItem>
+            <!-- Profile -->
+            <TabItem Height="50" Width="100" Header="Profile" Foreground="#CCA43B" FontSize="16" Background="#363636" BorderThickness="0">
+                <Canvas>
+                    <Ellipse Height="150" Width="150" Canvas.Left="525" Canvas.Top="50">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="../Assets/MainPage/Profile/profile.jpg"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Border  Canvas.Left="190" Canvas.Top="250" Background="#CCA43B" CornerRadius="8" Padding="16,5,16,16">
+                        <StackPanel>
+                            <Label HorizontalAlignment="Center" Foreground="Black" FontSize="25" FontWeight="DemiBold" Margin="12">Profile</Label>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <Label Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="4,2.4">Name</Label>
+                                    <Label Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="4,2.4">Surname</Label>
+                                    <Label Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="4,2.4">Email</Label>
+                                    <Label Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="4,2.4">Password</Label>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Width="260">
+                                    <usercontrols:LoginDataTextBoxUC Margin="6" PlaceHolderText="Name"></usercontrols:LoginDataTextBoxUC>
+                                    <usercontrols:LoginDataTextBoxUC Margin="6" PlaceHolderText="Surname"></usercontrols:LoginDataTextBoxUC>
+                                    <usercontrols:LoginDataTextBoxUC Margin="6" PlaceHolderText="Email"></usercontrols:LoginDataTextBoxUC>
+                                    <usercontrols:LoginDataTextBoxUC Margin="6" PlaceHolderText="Password"></usercontrols:LoginDataTextBoxUC>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    <Border  Canvas.Left="600" Canvas.Top="250" Background="#CCA43B" CornerRadius="8" Padding="15,5,15,15">
+                        <StackPanel>
+                            <Label HorizontalAlignment="Center" Foreground="Black" FontSize="25" FontWeight="DemiBold" Margin="10">Social Media Accounts</Label>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <Image Grid.Row="0" Width="25" Height="25" Margin="4,8.8" Source="../Assets/MainPage/Profile/instagram.png" Stretch="Fill"/>
+                                    <Image Grid.Row="1" Width="25" Height="25" Margin="4,8.8" Source="../Assets/MainPage/Profile/facebook.png" Stretch="Fill"/>
+                                    <Image Grid.Row="2" Width="25" Height="25" Margin="4,8.8" Source="../Assets/MainPage/Profile/twitter.png" Stretch="Fill"/>
+                                    <Image Grid.Row="3" Width="25" Height="25" Margin="4,8.8" Source="../Assets/MainPage/Profile/snapchat.png" Stretch="Fill"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <Label Grid.Row="0" Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="2.4">Instagram</Label>
+                                    <Label Grid.Row="1" Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="2.4">Facebook</Label>
+                                    <Label Grid.Row="2" Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="2.4">Twitter</Label>
+                                    <Label Grid.Row="3" Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="2.4">Snapchat</Label>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Width="260">
+                                    <usercontrols:LoginDataTextBoxUC Grid.Row="0" Margin="6" PlaceHolderText="Instagram"></usercontrols:LoginDataTextBoxUC>
+                                    <usercontrols:LoginDataTextBoxUC Grid.Row="1" Margin="6" PlaceHolderText="Facebook"></usercontrols:LoginDataTextBoxUC>
+                                    <usercontrols:LoginDataTextBoxUC Grid.Row="2" Margin="6" PlaceHolderText="Twitter"></usercontrols:LoginDataTextBoxUC>
+                                    <usercontrols:LoginDataTextBoxUC Grid.Row="3" Margin="6" PlaceHolderText="Snapchat"></usercontrols:LoginDataTextBoxUC>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    <Button Canvas.Bottom="25" Canvas.Right="435" Background="#786A3E" Foreground="White" Width="300" Height="50"
+                                                FontSize="22" FontWeight="DemiBold" Content="Save Changes" Command="{Binding BuyTicketCommand}">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="7"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </Canvas>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

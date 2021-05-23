@@ -1,8 +1,10 @@
 ﻿using CinemaProject_WPF.Command;
+using CinemaProject_WPF.Database;
 using CinemaProject_WPF.Models;
 using CinemaProject_WPF.Views;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
+using Microsoft.Maps.MapControl.WPF;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,7 +15,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using YouTubeSearch;
 
 namespace CinemaProject_WPF.ViewModels
 {
@@ -107,6 +108,24 @@ namespace CinemaProject_WPF.ViewModels
             MovieVideoURL = $@"https://www.youtube.com/embed/{_videoId}?&start=5&autoplay=1&controls=0&showinfo=0&rel=0&disablekb=1&iv_load_policy=3&loop=1&modestbranding=1";
         }
 
+        public void GetMovies()
+        {
+            string[] movies = { "Thor", "Avengers Endgame", "The Godfather", "Interstellar", "Game Of Thrones", "Venom", "The Maze Runner", "Joker", "Ironman " };
+            foreach (var item in movies)
+            {
+                HttpResponseMessage response = new HttpResponseMessage();
+                response = http.GetAsync($@"http://www.omdbapi.com/?apikey=a91a5037&t={item}&plot=full").Result;
+                var str = response.Content.ReadAsStringAsync().Result;
+                Data = JsonConvert.DeserializeObject(str);
+                Movie movie = new Movie(Data.imdbID, Data.Title, Data.imdbRating, Data.Released, Data.Genre, Data.Country, Data.Language, Data.Type, Data.Poster);
+                Movies.Add(movie);
+            }
+        }
+
+        public string Key { get; set; } = "grLxkFvx8zUmfU6sts1Z~U9NagxEUPjUt0VxN0T3EYg~Ak7wcNEmy_sJeP3S12za3kh8OsOyGyRR1sWpkLFFnrGS_qelcVs3knkQ56yyjMje";
+        public ApplicationIdCredentialsProvider Provider { get; set; }
+        public List<Models.Pushpin> Pushpins { get; set; }
+
         public dynamic Data { get; set; }
         readonly HttpClient http = new HttpClient();
         public MainViewModel()
@@ -160,20 +179,65 @@ namespace CinemaProject_WPF.ViewModels
                 }
                 else MessageBox.Show("You must select a movie !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             });
-        }
 
-        public void GetMovies()
+            Provider = new ApplicationIdCredentialsProvider(Key);
+            Pushpins = DB.Pushpins;
+        } // Sign In hissesin hazir edenden sonra sil
+
+        public MainViewModel(User user)
         {
-            string[] movies = { "Thor", "Avengers Endgame", "The Godfather", "Interstellar", "Game Of Thrones", "Venom", "The Maze Runner", "Joker", "Ironman " };
-            foreach (var item in movies)
+            GetMovies();
+            SearchCommand = new RelayCommand((e) =>
             {
                 HttpResponseMessage response = new HttpResponseMessage();
-                response = http.GetAsync($@"http://www.omdbapi.com/?apikey=a91a5037&t={item}&plot=full").Result;
+                var name = SearchText;
+                response = http.GetAsync($@"http://www.omdbapi.com/?apikey=a91a5037&t={name}&plot=full").Result;
                 var str = response.Content.ReadAsStringAsync().Result;
                 Data = JsonConvert.DeserializeObject(str);
-                Movie movie = new Movie(Data.Title, Data.imdbRating, Data.Released, Data.Genre, Data.Country, Data.Language, Data.Type, Data.Poster);
-                Movies.Add(movie);
-            }
+                if (name.Length > 1)
+                {
+                    try
+                    {
+                        MoviePosterPath = Data.Poster;
+                        MovieTitle = Data.Title;
+                        MovieIMDB = Data.imdbRating;
+                        MovieYear = Data.Released;
+                        MovieGenre = Data.Genre;
+                        MovieCountry = Data.Country;
+                        MovieLanguage = Data.Language;
+                        MovieType = Data.Type;
+
+                        /// This is for Movie Trailer
+                        // Search(MovieTitle); 
+                    }
+                    catch (Exception) { }
+                }
+            });
+
+            SelectedItemChangedCommand = new RelayCommand((e) =>
+            {
+                MoviePosterPath = SelectedItem.PosterPath;
+                MovieTitle = SelectedItem.Title;
+                MovieIMDB = SelectedItem.IMDB;
+                MovieYear = SelectedItem.Year;
+                MovieGenre = SelectedItem.Genre;
+                MovieCountry = SelectedItem.Country;
+                MovieLanguage = SelectedItem.Language;
+                MovieType = SelectedItem.Type;
+            });
+
+            BuyTicketCommand = new RelayCommand((e) =>
+            {
+                if (MovieTitle != null)
+                {
+                    BuyTicketWindow buyTicketWindow = new BuyTicketWindow(MovieTitle);
+                    buyTicketWindow.ShowDialog();
+                }
+                else MessageBox.Show("You must select a movie !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            });
+
+            Provider = new ApplicationIdCredentialsProvider(Key);
+            Pushpins = DB.Pushpins;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

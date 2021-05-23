@@ -1,6 +1,4 @@
-﻿using CinemaProject_WPF.Models;
-using CinemaProject_WPF.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,23 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CinemaProject_WPF
+namespace CinemaProject_WPF.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ProfileDataTextBoxUC.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ProfileDataTextBoxUC : UserControl
     {
-        public MainWindow()
+        public ProfileDataTextBoxUC()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
-        }
-
-        public MainWindow(User user)
-        {
-            InitializeComponent();
-            DataContext = new MainViewModel(user);
         }
     }
 }

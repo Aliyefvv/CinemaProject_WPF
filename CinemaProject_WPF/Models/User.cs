@@ -12,6 +12,11 @@ namespace CinemaProject_WPF.Models
         public string Surname { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string ImagePath { get; set; }
+        public string Instagram { get; set; }
+        public string Facebook { get; set; }
+        public string Twitter { get; set; }
+        public string Snapchat { get; set; }
 
         public User() { }
         public User(string name,string surname,string email,string password)

@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Style x:Key="SelectChairButtonStyle2" TargetType="ToggleButton">
+    <Style x:Key="SelectChairButtonStyle" TargetType="ToggleButton">
         <Setter Property="Background" Value="#E5E5E5"/>
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -21,45 +21,5 @@
                 <Setter Property="Background" Value="Green"/>
             </Trigger>
         </Style.Triggers>
-    </Style>
-
-    <Style TargetType="{x:Type ToggleButton}" x:Key="SelectChairButtonStyle">
-        <Setter Property="Background" Value="#E5E5E5"/>
-        <Setter Property="FontSize" Value="18"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Margin" Value="17,10"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border Name="OuterBorder" BorderThickness="0,1,1,0" >
-                        <Border Name="InnerBorder" BorderThickness="2">
-                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        </Border>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Style" TargetName="InnerBorder" Value="{StaticResource ButtonSingleTrigger}" />
-                            <!--<Setter Property="Style" TargetName="OuterBorder" Value="{StaticResource ButtonOuterBHover}" />-->
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="false">
-                            <Setter Property="Style" TargetName="InnerBorder" Value="{StaticResource ButtonDefaultState}" />
-                            <!--<Setter Property="Style" TargetName="OuterBorder" Value="{StaticResource ButtonOuterBHover}" />-->
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Style" TargetName="InnerBorder" Value="{StaticResource ButtonSingleTrigger}" />
-
-                        </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="true" />
-                                <Condition Property="IsChecked" Value="true" />
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Style" TargetName="InnerBorder" Value="{StaticResource ButtonMultiTrigger}" />
-                        </MultiTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
 </ResourceDictionary>

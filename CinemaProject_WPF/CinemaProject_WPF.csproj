@@ -70,6 +70,9 @@
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Maps.MapControl.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Maps.MapControl.WPF.1.0.0.3\lib\net40-Client\Microsoft.Maps.MapControl.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -109,13 +112,18 @@
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Movie.cs" />
+    <Compile Include="Models\Pushpin.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Repository\Repo.cs" />
+    <Compile Include="ViewModels\AdminViewModel.cs" />
     <Compile Include="ViewModels\BuyTicketViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
+    <Compile Include="Views\AdminWindow.xaml.cs">
+      <DependentUpon>AdminWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BuyTicketWindow.xaml.cs">
       <DependentUpon>BuyTicketWindow.xaml</DependentUpon>
     </Compile>
@@ -124,6 +132,9 @@
     </Compile>
     <Compile Include="Views\UserControls\LoginDataTextBoxUC.xaml.cs">
       <DependentUpon>LoginDataTextBoxUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\ProfileDataTextBoxUC.xaml.cs">
+      <DependentUpon>ProfileDataTextBoxUC.xaml</DependentUpon>
     </Compile>
     <Page Include="Styles\ButtonStyle.xaml">
       <SubType>Designer</SubType>
@@ -134,6 +145,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\ListBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\PushPinStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -150,6 +165,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\ToggleButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AdminWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -184,6 +203,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UserControls\ProfileDataTextBoxUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -212,9 +235,38 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Assets\LoginPage\Images\avengers.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\MainPage\Cinema\28may.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\MainPage\Cinema\pushpin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\MainPage\Cinema\parkcinema.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\MainPage\Cinema\cinemaplus.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\MainPage\Cinema\nizami.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\MainPage\Profile\profile.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\MainPage\Profile\instagram.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\MainPage\Profile\snapchat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\MainPage\Profile\facebook.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\MainPage\Profile\twitter.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -12,7 +12,7 @@ namespace CinemaProject_WPF.Repository
     {
         public static List<User> GetUsers()
         {
-            return File.ReadJSON_Users("users.json") as List<User>;
+            return File.ReadJSON_Users("users.json");
         }
     }
 }

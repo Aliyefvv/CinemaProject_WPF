@@ -1,5 +1,4 @@
-﻿using CinemaProject_WPF.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,16 +15,13 @@ using System.Windows.Shapes;
 namespace CinemaProject_WPF.Views
 {
     /// <summary>
-    /// Interaction logic for BuyTicketWindow.xaml
+    /// Interaction logic for AdminWindow.xaml
     /// </summary>
-    public partial class BuyTicketWindow : Window
+    public partial class AdminWindow : Window
     {
-        public BuyTicketWindow(string movieTitle)   
+        public AdminWindow()
         {
             InitializeComponent();
-            BuyTicketViewModel vm = new BuyTicketViewModel(movieTitle);
-            DataContext = vm;
-            if (vm.CloseAction == null) vm.CloseAction = new Action(this.Close);
         }
     }
 }

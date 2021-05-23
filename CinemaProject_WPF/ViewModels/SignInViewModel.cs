@@ -50,7 +50,7 @@ namespace CinemaProject_WPF.ViewModels
                 //         if (user.Email == Email && user.Password == Password)
                 //         {
                 //             find = true;
-                //             MainWindow mainWindow = new MainWindow();
+                //             MainWindow mainWindow = new MainWindow(user);
                 //             mainWindow.Show();
                 //             CloseAction();
                 //         }
