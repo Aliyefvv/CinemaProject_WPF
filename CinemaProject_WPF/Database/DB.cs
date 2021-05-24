@@ -39,5 +39,6 @@ namespace CinemaProject_WPF.Database
                 ImagePath = "../Assets/MainPage/Cinema/nizami.jpg"
             },
         };
+        public static List<Ticket> SoldTickets { get; set; } = new List<Ticket>();
     }
 }

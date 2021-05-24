@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CinemaProject_WPF.Views"
         xmlns:usercontrols="clr-namespace:CinemaProject_WPF.Views.UserControls"
         mc:Ignorable="d"
-        Title="LoginWindow"
+        Title="Login"
         Height="400" Width="600"
         MaxHeight="400" MaxWidth="600"
         MinHeight="400" MinWidth="600"

@@ -1,5 +1,6 @@
 ﻿using CinemaProject_WPF.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +12,17 @@ namespace CinemaProject_WPF.Helper
 {
     public static class File
     {
+        public static void UpdateUser(List<User> users)
+        {
+            var serializer = new JsonSerializer();
+            using (var sw = new StreamWriter("users.json",false))
+            using (var jw = new JsonTextWriter(sw))
+            {
+                jw.Formatting = Newtonsoft.Json.Formatting.Indented;
+                serializer.Serialize(jw, users);
+            }
+        }
+
         public static void WriteJSON(object obj, string filename)
         {
             var serializer = new JsonSerializer();
@@ -29,6 +41,15 @@ namespace CinemaProject_WPF.Helper
             using (var sr = new StreamReader(fs))
             using (var jr = new JsonTextReader(sr))
                 return serializer.Deserialize<List<User>>(jr);
+        }
+
+        public static List<Ticket> ReadJSON_Tickets(string filename)
+        {
+            var serializer = new JsonSerializer();
+            var fs = new FileStream(filename, FileMode.OpenOrCreate);
+            using (var sr = new StreamReader(fs))
+            using (var jr = new JsonTextReader(sr))
+                return serializer.Deserialize<List<Ticket>>(jr);
         }
 
         public static void PrintVaucher(Ticket ticket)

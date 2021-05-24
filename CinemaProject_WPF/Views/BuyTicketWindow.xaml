@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
-        xmlns:local="clr-namespace:CinemaProject_WPF.Views" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Title="BuyTicketWindow" Height="500" Width="800"
+        Title="Buy Ticket" Height="500" Width="800"
+        MinHeight="500" MaxHeight="800"
+        MinWidth="500" MaxWidth="800"
         WindowStartupLocation="CenterScreen">
     <Grid Background="#363636">
         <Grid.ColumnDefinitions>
@@ -15,18 +17,25 @@
         </Grid.ColumnDefinitions>
 
         <Canvas Grid.Row="0">
-            <DatePicker DisplayDateStart="{Binding Mode=OneWay, Source={x:Static System:DateTime.Today}}" DisplayDateEnd="{Binding DisplayDateEnd}" BorderThickness="0" Width="180" Canvas.Left="20" Canvas.Top="15" SelectedDate="{Binding SelectedDate}"/>
+            <DatePicker DisplayDateStart="{Binding Mode=OneWay, Source={x:Static System:DateTime.Today}}" DisplayDateEnd="{Binding DisplayDateEnd}" 
+                        BorderThickness="0" Width="180" Canvas.Left="20" Canvas.Top="15" SelectedDate="{Binding SelectedDate}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectedDateChanged">
+                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DataContext.SelectedDateChangedDateCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </DatePicker>
 
             <Border Canvas.Top="215" Canvas.Right="20" Width="175" Height="110" Background="#D9C590" CornerRadius="10">
                 <StackPanel HorizontalAlignment="Left" Margin="5,2,0,0">
                     <Viewbox Height="25" Margin="5">
-                        <RadioButton GroupName="g1" IsChecked="{Binding RadioButton1}" FontSize="16" FontWeight="DemiBold" VerticalContentAlignment="Center">13:00-15:00</RadioButton>
+                        <RadioButton GroupName="g1" IsChecked="{Binding RadioButton1}" Command="{Binding RadioButtonCheckedCommand}" FontSize="16" FontWeight="DemiBold" VerticalContentAlignment="Center">13:00-15:00</RadioButton>
                     </Viewbox>
                     <Viewbox Height="25" Margin="5">
-                        <RadioButton GroupName="g1" IsChecked="{Binding RadioButton2}" FontSize="16" FontWeight="DemiBold" VerticalContentAlignment="Center">16:00-18:00</RadioButton>
+                        <RadioButton GroupName="g1" IsChecked="{Binding RadioButton2}" Command="{Binding RadioButtonCheckedCommand}" FontSize="16" FontWeight="DemiBold" VerticalContentAlignment="Center">16:00-18:00</RadioButton>
                     </Viewbox>
                     <Viewbox Height="25" Margin="7,5,5,5">
-                        <RadioButton GroupName="g1" IsChecked="{Binding RadioButton3}" FontSize="16" FontWeight="DemiBold" VerticalContentAlignment="Center">20:00-22:00</RadioButton>
+                        <RadioButton GroupName="g1" IsChecked="{Binding RadioButton3}" Command="{Binding RadioButtonCheckedCommand}" FontSize="16" FontWeight="DemiBold" VerticalContentAlignment="Center">20:00-22:00</RadioButton>
                     </Viewbox>
                 </StackPanel>
             </Border>
@@ -40,375 +49,64 @@
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1.1*"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
 
-            <UniformGrid Grid.Row="0" Columns="6" Rows="2" Margin="0,0,0,5">
-                <ToggleButton Style="{DynamicResource SelectChairButtonStyle}" >1
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedExpensiveSeatCommand}" CommandParameter="1"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedExpensiveSeatCommand}" CommandParameter="1"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">2
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedExpensiveSeatCommand}" CommandParameter="2"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedExpensiveSeatCommand}" CommandParameter="2"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">3
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedExpensiveSeatCommand}" CommandParameter="3"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedExpensiveSeatCommand}" CommandParameter="3"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">4
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedExpensiveSeatCommand}" CommandParameter="4"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedExpensiveSeatCommand}" CommandParameter="4"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">5
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedExpensiveSeatCommand}" CommandParameter="5"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedExpensiveSeatCommand}" CommandParameter="5"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">6
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedExpensiveSeatCommand}" CommandParameter="6"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedExpensiveSeatCommand}" CommandParameter="6"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">7
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedExpensiveSeatCommand}" CommandParameter="7"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedExpensiveSeatCommand}" CommandParameter="7"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">8
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedExpensiveSeatCommand}" CommandParameter="8"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedExpensiveSeatCommand}" CommandParameter="8"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">9
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedExpensiveSeatCommand}" CommandParameter="9"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedExpensiveSeatCommand}" CommandParameter="9"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">10
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedExpensiveSeatCommand}" CommandParameter="10"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedExpensiveSeatCommand}" CommandParameter="10"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">11
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedExpensiveSeatCommand}" CommandParameter="11"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedExpensiveSeatCommand}" CommandParameter="11"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">12
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedExpensiveSeatCommand}" CommandParameter="12"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedExpensiveSeatCommand}" CommandParameter="12"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-            </UniformGrid>
-
-            <UniformGrid Grid.Row="1" Columns="6" Rows="4" Margin="0,5,0,0">
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">13
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="13"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="13"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">14
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="14"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="14"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">15
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="15"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="15"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">16
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="16"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="16"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">17
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="17"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="17"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">18
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="18"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="18"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">19
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="19"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="19"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">20
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="20"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="20"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">21
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="21"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="21"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">22
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="22"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="22"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">23
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="23"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="23"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">24
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="24"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="24"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">25
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="25"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="25"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">26
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="26"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="26"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">27
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="27"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="27"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">28
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="28"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="28"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">29
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="29"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="29"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">30
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="30"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="30"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">31
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="31"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="31"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">32
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="32"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="32"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">33
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="33"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="33"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">34
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="34"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="34"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">35
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="35"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="35"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-                <ToggleButton Style="{StaticResource SelectChairButtonStyle}">36
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
-                            <i:InvokeCommandAction Command="{Binding UnCheckedCheapSeatCommand}" CommandParameter="36"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <i:InvokeCommandAction Command="{Binding CheckedCheapSeatCommand}" CommandParameter="36"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ToggleButton>
-            </UniformGrid>
+            <Grid Grid.Row="0">
+                <ListBox ItemsSource="{Binding ExpensiveSeats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SeatItemStyle}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <ToggleButton Style="{DynamicResource SelectChairButtonStyle}" Content="{Binding Path=Content}" IsEnabled="{Binding IsEnabled}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Unchecked">
+                                        <i:InvokeCommandAction
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DataContext.UnCheckedExpensiveSeatCommand}"
+                                            CommandParameter="{Binding Path=Content}"/>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DataContext.CheckedExpensiveSeatCommand}" 
+                                            CommandParameter="{Binding Path=Content}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ToggleButton>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+            <Grid Grid.Row="1">
+                <ListBox ItemsSource="{Binding CheapSeats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SeatItemStyle}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <ToggleButton Style="{DynamicResource SelectChairButtonStyle}" Content="{Binding Path=Content}" IsEnabled="{Binding IsEnabled}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Unchecked">
+                                        <i:InvokeCommandAction
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DataContext.UnCheckedCheapSeatCommand}"
+                                            CommandParameter="{Binding Path=Content}"/>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction 
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DataContext.CheckedCheapSeatCommand}"
+                                            CommandParameter="{Binding Path=Content}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ToggleButton>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

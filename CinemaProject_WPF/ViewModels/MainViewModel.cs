@@ -1,10 +1,13 @@
 ﻿using CinemaProject_WPF.Command;
 using CinemaProject_WPF.Database;
+using CinemaProject_WPF.Helper;
 using CinemaProject_WPF.Models;
+using CinemaProject_WPF.Repository;
 using CinemaProject_WPF.Views;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
 using Microsoft.Maps.MapControl.WPF;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,6 +16,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -87,12 +91,68 @@ namespace CinemaProject_WPF.ViewModels
             get { return _selectedItem; }
             set { _selectedItem = value; OnPropertyChanged(); }
         }
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; OnPropertyChanged(); }
+        }
+        private string _surname;
+        public string Surname
+        {
+            get { return _surname; }
+            set { _surname = value; OnPropertyChanged(); }
+        }
+        private string _email;
+        public string Email
+        {
+            get { return _email; }
+            set { _email = value; OnPropertyChanged(); }
+        }
+        private string _password;
+        public string Password
+        {
+            get { return _password; }
+            set { _password = value; OnPropertyChanged(); }
+        }
+        private string _instagram;
+        public string Instagram
+        {
+            get { return _instagram; }
+            set { _instagram = value; OnPropertyChanged(); }
+        }
+        private string _facebook;
+        public string Facebook
+        {
+            get { return _facebook; }
+            set { _facebook = value; OnPropertyChanged(); }
+        }
+        private string _twitter;
+        public string Twitter
+        {
+            get { return _twitter; }
+            set { _twitter = value; OnPropertyChanged(); }
+        }
+        private string _snapchat;
+        public string Snapchat
+        {
+            get { return _snapchat; }
+            set { _snapchat = value; OnPropertyChanged(); }
+        }
+        private string _profilePhoto;
+        public string ProfilePhoto
+        {
+            get { return _profilePhoto; }
+            set { _profilePhoto = value; OnPropertyChanged(); }
+        }
 
 
         public RelayCommand SelectedItemChangedCommand { get; set; }
         public RelayCommand SearchCommand { get; set; }
         public RelayCommand VideoLoadCommand { get; set; }
         public RelayCommand BuyTicketCommand { get; set; }
+        public RelayCommand SaveChangesCommand { get; set; }
+        public RelayCommand ChangeProfilePhotoCommand { get; set; }
 
 
         private async void Search(string movieName)
@@ -186,7 +246,14 @@ namespace CinemaProject_WPF.ViewModels
 
         public MainViewModel(User user)
         {
+            Name = user.Name;
+            Surname = user.Surname;
+            Email = user.Email;
+            Password = user.Password;
+            ProfilePhoto = user.ProfilePhoto;
+
             GetMovies();
+
             SearchCommand = new RelayCommand((e) =>
             {
                 HttpResponseMessage response = new HttpResponseMessage();
@@ -234,6 +301,88 @@ namespace CinemaProject_WPF.ViewModels
                     buyTicketWindow.ShowDialog();
                 }
                 else MessageBox.Show("You must select a movie !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            });
+
+            SaveChangesCommand = new RelayCommand((e) =>
+            {
+                foreach (var item in DB.Users)
+                {
+                    if (user.ID == item.ID)
+                    {
+                        bool find = false;
+                        Regex email_regex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+                        Regex instagram_regex = new Regex(@"(https?)?:?(www)?instagram\.com/[a-z].{3}");
+                        Regex facebook_regex = new Regex(@"(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)");
+                        Regex twitter_regex = new Regex(@"/(?:http:\/\/)?(?:www\.)?twitter\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/");
+                        Regex snapchat_regex = new Regex(@"^(?!.*\.\.|.*__|.*\-\-)(?!.*\.$|.*_$|.*\-$)(?!.*\.\-|.*\-\.|.*\-_|.*_\-|.*\._|.*_\.)[a-zA-Z]+[\w.-][0-9A-z]{0,15}$");
+                        if (Name == null) MessageBox.Show("Name can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        else if (Surname == null) MessageBox.Show("Surname can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        else if (Email == null) MessageBox.Show("Email can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        else if (!email_regex.IsMatch(Email)) MessageBox.Show("Email is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        else if (Password == null) MessageBox.Show("Passowrd can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        else if (Password.Length < 8) MessageBox.Show("Your password must be longer than 8 characters !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        if (Instagram != string.Empty)
+                        {
+                            if (!instagram_regex.IsMatch(Instagram))
+                                MessageBox.Show("Instagram is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
+                        if (Facebook != string.Empty)
+                        {
+                            if (!facebook_regex.IsMatch(Facebook))
+                                MessageBox.Show("Facebook is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
+                        if (Twitter != string.Empty)
+                        {
+                            if (!twitter_regex.IsMatch(Twitter))
+                                MessageBox.Show("Twitter is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
+                        if (Snapchat != string.Empty)
+                        {
+                            if (!snapchat_regex.IsMatch(Snapchat))
+                                MessageBox.Show("Snapchat is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
+                        if (Repo.GetUsers() != null)
+                        {
+                            foreach (var repo_user in Repo.GetUsers())
+                                if (repo_user.Email == Email && Email != user.Email)
+                                {
+                                    find = true;
+                                    MessageBox.Show("Email is already used", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                }
+                        }
+                        if (!find)
+                        {
+                            if (Name != null && Surname != null && Email != null && email_regex.IsMatch(Email) && Password != null && Password.Length > 8)
+                            {
+                                item.Name = Name;
+                                item.Surname = Surname;
+                                item.Email = Email;
+                                item.Password = Password;
+                                item.Instagram = Instagram;
+                                item.Facebook = Facebook;
+                                item.Twitter = Twitter;
+                                item.Snapchat = Snapchat;
+                                item.ProfilePhoto = ProfilePhoto;
+                                File.UpdateUser(DB.Users);
+                            }
+                        }
+                    }
+                }
+            });
+
+            ChangeProfilePhotoCommand = new RelayCommand((e) =>
+            {
+                OpenFileDialog op = new OpenFileDialog
+                {
+                    Title = "Select a picture",
+                    Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+                             "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+                             "Portable Network Graphic (*.png)|*.png"
+                };
+                if (op.ShowDialog() == true)
+                {
+                    ProfilePhoto = op.FileName;
+                }
             });
 
             Provider = new ApplicationIdCredentialsProvider(Key);

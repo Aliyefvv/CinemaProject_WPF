@@ -89,7 +89,7 @@
                                     <Canvas>
                                         <Label Foreground="White" FontSize="28" FontWeight="DemiBold" Canvas.Left="450" Canvas.Top="10">Most Popular</Label>
                                         <Grid Canvas.Top="50" Canvas.Left="5">
-                                            <ListBox Width="1080" BorderThickness="0" SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding Movies}" Style="{StaticResource MoviesListStyle}">
+                                            <ListBox Width="1100" BorderThickness="0" SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding Movies}" Style="{StaticResource MoviesListStyle}">
                                                 <ListBox.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <WrapPanel Orientation="Horizontal"/>
@@ -136,16 +136,33 @@
                 </map:Map>
             </TabItem>
             <!-- About Us -->
-            <TabItem Height="50" Width="100" Header="About Us" Foreground="#CCA43B" FontSize="16" Background="#363636" BorderThickness="0"></TabItem>
-            <!-- Profile -->
-            <TabItem Height="50" Width="100" Header="Profile" Foreground="#CCA43B" FontSize="16" Background="#363636" BorderThickness="0">
+            <TabItem Height="50" Width="100" Header="About Us" Foreground="#CCA43B" FontSize="16" Background="#363636" BorderThickness="0">
                 <Canvas>
-                    <Ellipse Height="150" Width="150" Canvas.Left="525" Canvas.Top="50">
-                        <Ellipse.Fill>
-                            <ImageBrush ImageSource="../Assets/MainPage/Profile/profile.jpg"/>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <Border  Canvas.Left="190" Canvas.Top="250" Background="#CCA43B" CornerRadius="8" Padding="16,5,16,16">
+                    <Label FontSize="55" FontWeight="DemiBold" Foreground="White" Canvas.Left="450" Canvas.Top="25">Cinema Plus</Label>
+                    <Label FontSize="25" Foreground="White">
+                        CinemaPlus şəbəkəsinə 8 kinoteatr, 38 ekran və 3802 oturacaq daxildir.
+
+Yüksək ölçülü 3D-kontentini nümayiş etdirmək imkanı olan rəqəmsal proyeksiya sistemi və yüksək keyfiyyətli kinoekranlar ilə təchiz olunub. Həmçinin, gücləndirilmiş parlaqlıq və “Enhanced 4K Barco” dəqiq təsvirinə malikdir. Bütün bunlar və başqa amillər kinofilmləri ən yaxşı keyfiyyətdə nümayiş etdirmək imkanı yaradır.
+
+“CinemaPlus” kinoteatrlar şəbəkəsinin tətbiq etdiyi “Platinum Movie Suites” konsepsiyası tamaşaçılara yüksək komfortlu, dəbdəbəli və dəridən hazırlanmış, söykənəcəyi tam arxaya açılan italyan kreslolarda film izləmək və kinoseans zamanı qida və içkilərin sifariş etmək imkanı yaradır.
+
+Bundan əlavə “CinemaPlus” Azərbaycanda ilk dəfə Dolby Atmos texnologiyası tətbiq edib.
+
+Səs müşayiətini kinoteatrın istənilən yerinə yerləşdirmək və yerini dəyişmək imkanı hesabına Dolby Digital Atmos film yaradıcılarına kinoda səsi yeni bir mərhələyə çıxarmaq imkan yaradır. Nəticədə tamaşaçı ekranda baş verənləri sadəcə izləmir, hadisənin mərkəzinə daxil olur.
+                    </Label>
+                </Canvas>
+            </TabItem>
+            <!-- Profile -->
+            <TabItem FocusManager.FocusedElement="{Binding ElementName=ellipse}" FocusManager.IsFocusScope="True" Height="50" Width="100" Header="Profile" Foreground="#CCA43B" FontSize="16" Background="#363636" BorderThickness="0">
+                <Canvas>
+                    <Button Style="{StaticResource ProfileButtonStyle}"  Canvas.Left="525" Canvas.Top="50" Command="{Binding ChangeProfilePhotoCommand}">
+                        <Ellipse Name="ellipse" Height="150" Width="150">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding ProfilePhoto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </Button>
+                    <Border  Canvas.Left="190" Canvas.Top="240" Background="#CCA43B" CornerRadius="8" Padding="16,5,16,16">
                         <StackPanel>
                             <Label HorizontalAlignment="Center" Foreground="Black" FontSize="25" FontWeight="DemiBold" Margin="12">Profile</Label>
                             <Grid>
@@ -160,15 +177,15 @@
                                     <Label Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="4,2.4">Password</Label>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" Width="260">
-                                    <usercontrols:LoginDataTextBoxUC Margin="6" PlaceHolderText="Name"></usercontrols:LoginDataTextBoxUC>
-                                    <usercontrols:LoginDataTextBoxUC Margin="6" PlaceHolderText="Surname"></usercontrols:LoginDataTextBoxUC>
-                                    <usercontrols:LoginDataTextBoxUC Margin="6" PlaceHolderText="Email"></usercontrols:LoginDataTextBoxUC>
-                                    <usercontrols:LoginDataTextBoxUC Margin="6" PlaceHolderText="Password"></usercontrols:LoginDataTextBoxUC>
+                                    <usercontrols:LoginDataTextBoxUC KeyboardNavigation.TabIndex="1" Margin="6" PlaceHolderText="Name" Text="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <usercontrols:LoginDataTextBoxUC KeyboardNavigation.TabIndex="2" Margin="6" PlaceHolderText="Surname" Text="{Binding Surname,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <usercontrols:LoginDataTextBoxUC KeyboardNavigation.TabIndex="3" Margin="6" PlaceHolderText="Email" Text="{Binding Email,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <usercontrols:LoginDataTextBoxUC KeyboardNavigation.TabIndex="4" Margin="6" PlaceHolderText="Password" Text="{Binding Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
                     </Border>
-                    <Border  Canvas.Left="600" Canvas.Top="250" Background="#CCA43B" CornerRadius="8" Padding="15,5,15,15">
+                    <Border  Canvas.Left="600" Canvas.Top="240" Background="#CCA43B" CornerRadius="8" Padding="15,5,15,15">
                         <StackPanel>
                             <Label HorizontalAlignment="Center" Foreground="Black" FontSize="25" FontWeight="DemiBold" Margin="10">Social Media Accounts</Label>
                             <Grid>
@@ -196,16 +213,16 @@
                                     <Label Grid.Row="3" Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="2.4">Snapchat</Label>
                                 </StackPanel>
                                 <StackPanel Grid.Column="2" Width="260">
-                                    <usercontrols:LoginDataTextBoxUC Grid.Row="0" Margin="6" PlaceHolderText="Instagram"></usercontrols:LoginDataTextBoxUC>
-                                    <usercontrols:LoginDataTextBoxUC Grid.Row="1" Margin="6" PlaceHolderText="Facebook"></usercontrols:LoginDataTextBoxUC>
-                                    <usercontrols:LoginDataTextBoxUC Grid.Row="2" Margin="6" PlaceHolderText="Twitter"></usercontrols:LoginDataTextBoxUC>
-                                    <usercontrols:LoginDataTextBoxUC Grid.Row="3" Margin="6" PlaceHolderText="Snapchat"></usercontrols:LoginDataTextBoxUC>
+                                    <usercontrols:LoginDataTextBoxUC Grid.Row="0" Margin="6" PlaceHolderText="Instagram" Text="{Binding Instagram,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></usercontrols:LoginDataTextBoxUC>
+                                    <usercontrols:LoginDataTextBoxUC Grid.Row="1" Margin="6" PlaceHolderText="Facebook" Text="{Binding Facebook,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></usercontrols:LoginDataTextBoxUC>
+                                    <usercontrols:LoginDataTextBoxUC Grid.Row="2" Margin="6" PlaceHolderText="Twitter" Text="{Binding Twitter,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></usercontrols:LoginDataTextBoxUC>
+                                    <usercontrols:LoginDataTextBoxUC Grid.Row="3" Margin="6" PlaceHolderText="Snapchat" Text="{Binding Snapchat,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></usercontrols:LoginDataTextBoxUC>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
                     </Border>
                     <Button Canvas.Bottom="25" Canvas.Right="435" Background="#786A3E" Foreground="White" Width="300" Height="50"
-                                                FontSize="22" FontWeight="DemiBold" Content="Save Changes" Command="{Binding BuyTicketCommand}">
+                                                FontSize="22" FontWeight="DemiBold" Content="Save Changes" Command="{Binding SaveChangesCommand}">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="7"/>
