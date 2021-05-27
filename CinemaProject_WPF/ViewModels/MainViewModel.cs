@@ -145,7 +145,67 @@ namespace CinemaProject_WPF.ViewModels
             get { return _profilePhoto; }
             set { _profilePhoto = value; OnPropertyChanged(); }
         }
+        private int _selectedIndex;
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set { _selectedIndex = value; OnPropertyChanged(); }
+        }
+        private string _about;
+        public string About
+        {
+            get { return _about; }
+            set { _about = value; OnPropertyChanged(); }
+        }
 
+        public string AboutAZ = @"
+CinemaPlus şəbəkəsinə 8 kinoteatr, 38 ekran və 3802 oturacaq daxildir.
+Yüksək ölçülü 3D-kontentini nümayiş etdirmək imkanı olan rəqəmsal proyeksiya sistemi və 
+yüksək keyfiyyətli kinoekranlar ilə təchiz olunub. Həmçinin, gücləndirilmiş parlaqlıq və 
+“Enhanced 4K Barco” dəqiq təsvirinə malikdir. Bütün bunlar və başqa amillər kinofilmləri 
+ən yaxşı keyfiyyətdə nümayiş etdirmək imkanı yaradır.
+
+“CinemaPlus” kinoteatrlar şəbəkəsinin tətbiq etdiyi “Platinum Movie Suites” konsepsiyası 
+tamaşaçılara yüksək komfortlu, dəbdəbəli və dəridən hazırlanmış, söykənəcəyi tam arxaya açılan
+italyan kreslolarda film izləmək və kinoseans zamanı qida və içkilərin sifariş etmək imkanı yaradır.
+
+Bundan əlavə “CinemaPlus” Azərbaycanda ilk dəfə Dolby Atmos texnologiyası tətbiq edib.
+
+Səs müşayiətini kinoteatrın istənilən yerinə yerləşdirmək və yerini dəyişmək imkanı 
+hesabına Dolby Digital Atmos film yaradıcılarına kinoda səsi yeni bir mərhələyə çıxarmaq imkan yaradır.
+Nəticədə tamaşaçı ekranda baş verənləri sadəcə izləmir, hadisənin mərkəzinə daxil olur.";
+        public string AboutEN = @"
+The CinemaPlus network includes 8 cinemas, 38 screens and 3802 seats.
+Digital projection system and the ability to display high-dimensional 3D content
+Equipped with high quality movie screens. Also, enhanced brightness and
+Enhanced 4K Barco has an accurate description. All these and other factors make movies
+allows you to demonstrate the best quality.
+
+Platinum Movie Suites concept implemented by CinemaPlus cinema network
+Highly comfortable, luxurious and made of leather, the back of which is fully open
+allows you to watch a movie in Italian seats and order food and drinks during the movie.
+
+In addition, CinemaPlus has introduced Dolby Atmos technology for the first time in Azerbaijan.
+
+Ability to place and change the soundtrack anywhere in the cinema
+Dolby Digital Atmos allows filmmakers to take their voice in cinema to a new level.
+As a result, the viewer not only watches what is happening on the screen, but enters the center of the event.";
+        public string AboutRU = @"
+Сеть CinemaPlus включает 8 кинотеатров, 38 экранов и 3802 места.
+Цифровая проекционная система и возможность отображать объемный 3D-контент
+Оборудован высококачественными киноэкранами. Также повышенная яркость и
+У Enhanced 4K Barco есть точное описание. Все эти и другие факторы делают фильмы
+позволяет продемонстрировать лучшее качество.
+
+Концепция Platinum Movie Suites реализована сетью кинотеатров CinemaPlus
+Очень удобная, роскошная, кожаная, задняя часть которой полностью открыта.
+позволяет смотреть фильм на итальянских сиденьях и заказывать еду и напитки во время фильма.
+
+Кроме того, CinemaPlus впервые в Азербайджане представила технологию Dolby Atmos.
+
+Возможность разместить и изменить саундтрек в любом месте кинотеатра
+Dolby Digital Atmos позволяет кинематографистам поднять свой голос в кино на новый уровень.
+В результате зритель не только наблюдает за происходящим на экране, но и попадает в центр события.";
 
         public RelayCommand SelectedItemChangedCommand { get; set; }
         public RelayCommand SearchCommand { get; set; }
@@ -153,6 +213,11 @@ namespace CinemaProject_WPF.ViewModels
         public RelayCommand BuyTicketCommand { get; set; }
         public RelayCommand SaveChangesCommand { get; set; }
         public RelayCommand ChangeProfilePhotoCommand { get; set; }
+        public RelayCommand InstagramCommand { get; set; }
+        public RelayCommand FacebookCommand { get; set; }
+        public RelayCommand YoutubeCommand { get; set; }
+        public RelayCommand TwitterCommand { get; set; }
+        public RelayCommand SelectedIndexChangedCommand { get; set; }
 
 
         private async void Search(string movieName)
@@ -170,7 +235,7 @@ namespace CinemaProject_WPF.ViewModels
 
         public void GetMovies()
         {
-            string[] movies = { "Thor", "Avengers Endgame", "The Godfather", "Interstellar", "Game Of Thrones", "Venom", "The Maze Runner", "Joker", "Ironman " };
+            string[] movies = { "Thor", "Avengers Endgame", "The Godfather", "Interstellar", "Game Of Thrones", "Venom", "The Maze Runner", "Joker" };
             foreach (var item in movies)
             {
                 HttpResponseMessage response = new HttpResponseMessage();
@@ -190,7 +255,15 @@ namespace CinemaProject_WPF.ViewModels
         readonly HttpClient http = new HttpClient();
         public MainViewModel()
         {
+            About = AboutAZ;
+            //Name = user.Name;
+            //Surname = user.Surname;
+            //Email = user.Email;
+            //Password = user.Password;
+            //ProfilePhoto = user.ProfilePhoto;
+
             GetMovies();
+
             SearchCommand = new RelayCommand((e) =>
             {
                 HttpResponseMessage response = new HttpResponseMessage();
@@ -240,12 +313,122 @@ namespace CinemaProject_WPF.ViewModels
                 else MessageBox.Show("You must select a movie !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             });
 
+            //SaveChangesCommand = new RelayCommand((e) =>
+            //{
+            //    foreach (var item in DB.Users)
+            //    {
+            //        if (user.ID == item.ID)
+            //        {
+            //            bool find = false;
+            //            Regex email_regex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+            //            Regex instagram_regex = new Regex(@"(https?)?:?(www)?instagram\.com/[a-z].{3}");
+            //            Regex facebook_regex = new Regex(@"(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)");
+            //            Regex twitter_regex = new Regex(@"/(?:http:\/\/)?(?:www\.)?twitter\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/");
+            //            Regex snapchat_regex = new Regex(@"^(?!.*\.\.|.*__|.*\-\-)(?!.*\.$|.*_$|.*\-$)(?!.*\.\-|.*\-\.|.*\-_|.*_\-|.*\._|.*_\.)[a-zA-Z]+[\w.-][0-9A-z]{0,15}$");
+            //            if (Name == null) MessageBox.Show("Name can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //            else if (Surname == null) MessageBox.Show("Surname can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //            else if (Email == null) MessageBox.Show("Email can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //            else if (!email_regex.IsMatch(Email)) MessageBox.Show("Email is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //            else if (Password == null) MessageBox.Show("Passowrd can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //            else if (Password.Length < 8) MessageBox.Show("Your password must be longer than 8 characters !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //            if (Instagram != string.Empty)
+            //            {
+            //                if (!instagram_regex.IsMatch(Instagram))
+            //                    MessageBox.Show("Instagram is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //            }
+            //            if (Facebook != string.Empty)
+            //            {
+            //                if (!facebook_regex.IsMatch(Facebook))
+            //                    MessageBox.Show("Facebook is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //            }
+            //            if (Twitter != string.Empty)
+            //            {
+            //                if (!twitter_regex.IsMatch(Twitter))
+            //                    MessageBox.Show("Twitter is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //            }
+            //            if (Snapchat != string.Empty)
+            //            {
+            //                if (!snapchat_regex.IsMatch(Snapchat))
+            //                    MessageBox.Show("Snapchat is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //            }
+            //            if (Repo.GetUsers() != null)
+            //            {
+            //                foreach (var repo_user in Repo.GetUsers())
+            //                    if (repo_user.Email == Email && Email != user.Email)
+            //                    {
+            //                        find = true;
+            //                        MessageBox.Show("Email is already used", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //                    }
+            //            }
+            //            if (!find)
+            //            {
+            //                if (Name != null && Surname != null && Email != null && email_regex.IsMatch(Email) && Password != null && Password.Length > 8)
+            //                {
+            //                    item.Name = Name;
+            //                    item.Surname = Surname;
+            //                    item.Email = Email;
+            //                    item.Password = Password;
+            //                    item.Instagram = Instagram;
+            //                    item.Facebook = Facebook;
+            //                    item.Twitter = Twitter;
+            //                    item.Snapchat = Snapchat;
+            //                    item.ProfilePhoto = ProfilePhoto;
+            //                    File.UpdateUser(DB.Users);
+            //                }
+            //            }
+            //        }
+            //    }
+            //});
+
+            ChangeProfilePhotoCommand = new RelayCommand((e) =>
+            {
+                OpenFileDialog op = new OpenFileDialog
+                {
+                    Title = "Select a picture",
+                    Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+                             "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+                             "Portable Network Graphic (*.png)|*.png"
+                };
+                if (op.ShowDialog() == true)
+                {
+                    ProfilePhoto = op.FileName;
+                }
+            });
+
+            InstagramCommand = new RelayCommand((e) =>
+            {
+                System.Diagnostics.Process.Start("https://www.instagram.com/cinemaplusaz/");
+            });
+
+            FacebookCommand = new RelayCommand((e) =>
+            {
+                System.Diagnostics.Process.Start("https://www.facebook.com/CINEMAPLUS.az/");
+            });
+
+            YoutubeCommand = new RelayCommand((e) =>
+            {
+                System.Diagnostics.Process.Start("https://www.youtube.com/user/The28Cinema?feature=watch");
+            });
+
+            TwitterCommand = new RelayCommand((e) =>
+            {
+                System.Diagnostics.Process.Start("https://twitter.com/CinemaPlusAz");
+            });
+
+            SelectedIndexChangedCommand = new RelayCommand((e) =>
+            {
+                if (SelectedIndex == 0) About = AboutAZ;
+                else if (SelectedIndex == 1) About = AboutEN;
+                else if (SelectedIndex == 2) About = AboutRU;
+            });
+
             Provider = new ApplicationIdCredentialsProvider(Key);
             Pushpins = DB.Pushpins;
         } // Sign In hissesin hazir edenden sonra sil
 
         public MainViewModel(User user)
         {
+            About = AboutAZ;
             Name = user.Name;
             Surname = user.Surname;
             Email = user.Email;
@@ -383,6 +566,33 @@ namespace CinemaProject_WPF.ViewModels
                 {
                     ProfilePhoto = op.FileName;
                 }
+            });
+
+            InstagramCommand = new RelayCommand((e) =>
+            {
+                System.Diagnostics.Process.Start("http://www.instagram.com");
+            });
+
+            FacebookCommand = new RelayCommand((e) =>
+            {
+                System.Diagnostics.Process.Start("https://www.facebook.com/CINEMAPLUS.az/");
+            });
+
+            YoutubeCommand = new RelayCommand((e) =>
+            {
+                System.Diagnostics.Process.Start("https://www.youtube.com/user/The28Cinema?feature=watch");
+            });
+
+            TwitterCommand = new RelayCommand((e) =>
+            {
+                System.Diagnostics.Process.Start("https://twitter.com/CinemaPlusAz");
+            });
+
+            SelectedIndexChangedCommand = new RelayCommand((e) =>
+            {
+                if (SelectedIndex == 0) About = AboutAZ;
+                else if (SelectedIndex == 1) About = AboutEN;
+                else if (SelectedIndex == 2) About = AboutRU;
             });
 
             Provider = new ApplicationIdCredentialsProvider(Key);

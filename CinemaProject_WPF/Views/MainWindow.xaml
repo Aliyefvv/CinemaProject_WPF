@@ -30,7 +30,8 @@
                             <Grid Grid.Row="0">
                                 <Border Background="#2D333B" CornerRadius="20" Margin="10" Height="430">
                                     <Canvas>
-                                        <Border Background="#E5E5E5" CornerRadius="5" Height="30" Canvas.Top="25" Canvas.Left="25" Width="1080">
+                                        <Label Content="Search" Foreground="#E5E5E5" FontSize="25" FontWeight="DemiBold" Canvas.Left="20" Canvas.Top="17"/>
+                                        <Border Background="#E5E5E5" CornerRadius="5" Height="30" Canvas.Top="25" Canvas.Right="25" Width="1000">
                                             <TextBox Background="#E5E5E5" Margin="8,2" BorderThickness="0" VerticalContentAlignment="Center" FontSize="14" Text="{Binding SearchText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="TextChanged">
@@ -138,18 +139,55 @@
             <!-- About Us -->
             <TabItem Height="50" Width="100" Header="About Us" Foreground="#CCA43B" FontSize="16" Background="#363636" BorderThickness="0">
                 <Canvas>
-                    <Label FontSize="55" FontWeight="DemiBold" Foreground="White" Canvas.Left="450" Canvas.Top="25">Cinema Plus</Label>
-                    <Label FontSize="25" Foreground="White">
-                        CinemaPlus şəbəkəsinə 8 kinoteatr, 38 ekran və 3802 oturacaq daxildir.
-
-Yüksək ölçülü 3D-kontentini nümayiş etdirmək imkanı olan rəqəmsal proyeksiya sistemi və yüksək keyfiyyətli kinoekranlar ilə təchiz olunub. Həmçinin, gücləndirilmiş parlaqlıq və “Enhanced 4K Barco” dəqiq təsvirinə malikdir. Bütün bunlar və başqa amillər kinofilmləri ən yaxşı keyfiyyətdə nümayiş etdirmək imkanı yaradır.
-
-“CinemaPlus” kinoteatrlar şəbəkəsinin tətbiq etdiyi “Platinum Movie Suites” konsepsiyası tamaşaçılara yüksək komfortlu, dəbdəbəli və dəridən hazırlanmış, söykənəcəyi tam arxaya açılan italyan kreslolarda film izləmək və kinoseans zamanı qida və içkilərin sifariş etmək imkanı yaradır.
-
-Bundan əlavə “CinemaPlus” Azərbaycanda ilk dəfə Dolby Atmos texnologiyası tətbiq edib.
-
-Səs müşayiətini kinoteatrın istənilən yerinə yerləşdirmək və yerini dəyişmək imkanı hesabına Dolby Digital Atmos film yaradıcılarına kinoda səsi yeni bir mərhələyə çıxarmaq imkan yaradır. Nəticədə tamaşaçı ekranda baş verənləri sadəcə izləmir, hadisənin mərkəzinə daxil olur.
-                    </Label>
+                    <Label FontSize="55" FontWeight="DemiBold" FontFamily="Gotham" Foreground="#00ACEC" Canvas.Left="440" Canvas.Top="10">Cinema Plus</Label>
+                    <ComboBox Canvas.Top="25" Canvas.Right="25" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectedIndexChangedCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ComboBoxItem Name="az" IsSelected="True">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Height="20" Source="../Assets/MainPage/AboutUs/az.png"></Image>
+                                <Label Margin="3,0,0,0" Content="AZ"/>
+                            </StackPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <StackPanel Name="en" Orientation="Horizontal">
+                                <Image Height="20" Source="../Assets/MainPage/AboutUs/en.png"></Image>
+                                <Label Margin="3,0,0,0" Content="EN"/>
+                            </StackPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <StackPanel Name="ru" Orientation="Horizontal">
+                                <Image Height="20" Source="../Assets/MainPage/AboutUs/ru.png"></Image>
+                                <Label Margin="3,0,0,0" Content="RU"/>
+                            </StackPanel>
+                        </ComboBoxItem>
+                    </ComboBox>
+                    <Label FontSize="24" Foreground="White" FontFamily="Gotham" Canvas.Top="60" Canvas.Left="10" Content="{Binding About}"/>
+                    <StackPanel Canvas.Bottom="10" Canvas.Left="490" Orientation="Horizontal">
+                        <Button Style="{StaticResource SocialMediaButtonStyle}" Command="{Binding InstagramCommand}">
+                            <Button.Background>
+                                <ImageBrush ImageSource="../Assets/MainPage/AboutUs/instagram.png"/>
+                            </Button.Background>
+                        </Button>
+                        <Button Style="{StaticResource SocialMediaButtonStyle}" Command="{Binding FacebookCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <Button.Background>
+                                <ImageBrush ImageSource="../Assets/MainPage/AboutUs/facebook.png"/>
+                            </Button.Background>
+                        </Button>
+                        <Button Style="{StaticResource SocialMediaButtonStyle}" Command="{Binding YoutubeCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <Button.Background>
+                                <ImageBrush ImageSource="../Assets/MainPage/AboutUs/youtube.png"/>
+                            </Button.Background>
+                        </Button>
+                        <Button Style="{StaticResource SocialMediaButtonStyle}" Command="{Binding TwitterCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <Button.Background>
+                                <ImageBrush ImageSource="../Assets/MainPage/AboutUs/twitter.png"/>
+                            </Button.Background>
+                        </Button>
+                    </StackPanel>
                 </Canvas>
             </TabItem>
             <!-- Profile -->
@@ -177,10 +215,10 @@ Səs müşayiətini kinoteatrın istənilən yerinə yerləşdirmək və yerini 
                                     <Label Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="4,2.4">Password</Label>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" Width="260">
-                                    <usercontrols:LoginDataTextBoxUC KeyboardNavigation.TabIndex="1" Margin="6" PlaceHolderText="Name" Text="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                                    <usercontrols:LoginDataTextBoxUC KeyboardNavigation.TabIndex="2" Margin="6" PlaceHolderText="Surname" Text="{Binding Surname,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                                    <usercontrols:LoginDataTextBoxUC KeyboardNavigation.TabIndex="3" Margin="6" PlaceHolderText="Email" Text="{Binding Email,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                                    <usercontrols:LoginDataTextBoxUC KeyboardNavigation.TabIndex="4" Margin="6" PlaceHolderText="Password" Text="{Binding Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <usercontrols:LoginDataTextBoxUC KeyboardNavigation.TabIndex="1" FontSize="14" Margin="6" FontFamily="Gotham" PlaceHolderText="Name" Text="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <usercontrols:LoginDataTextBoxUC KeyboardNavigation.TabIndex="2" Margin="6" FontFamily="Gotham" PlaceHolderText="Surname" Text="{Binding Surname,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <usercontrols:LoginDataTextBoxUC KeyboardNavigation.TabIndex="3" Margin="6" FontFamily="Gotham" PlaceHolderText="Email" Text="{Binding Email,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <usercontrols:LoginDataTextBoxUC KeyboardNavigation.TabIndex="4" Margin="6" FontFamily="Gotham" PlaceHolderText="Password" Text="{Binding Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
@@ -213,27 +251,15 @@ Səs müşayiətini kinoteatrın istənilən yerinə yerləşdirmək və yerini 
                                     <Label Grid.Row="3" Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="2.4">Snapchat</Label>
                                 </StackPanel>
                                 <StackPanel Grid.Column="2" Width="260">
-                                    <usercontrols:LoginDataTextBoxUC Grid.Row="0" Margin="6" PlaceHolderText="Instagram" Text="{Binding Instagram,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></usercontrols:LoginDataTextBoxUC>
-                                    <usercontrols:LoginDataTextBoxUC Grid.Row="1" Margin="6" PlaceHolderText="Facebook" Text="{Binding Facebook,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></usercontrols:LoginDataTextBoxUC>
-                                    <usercontrols:LoginDataTextBoxUC Grid.Row="2" Margin="6" PlaceHolderText="Twitter" Text="{Binding Twitter,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></usercontrols:LoginDataTextBoxUC>
-                                    <usercontrols:LoginDataTextBoxUC Grid.Row="3" Margin="6" PlaceHolderText="Snapchat" Text="{Binding Snapchat,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></usercontrols:LoginDataTextBoxUC>
+                                    <usercontrols:LoginDataTextBoxUC Grid.Row="0" Margin="6" FontFamily="Gotham" PlaceHolderText="Instagram" Text="{Binding Instagram,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></usercontrols:LoginDataTextBoxUC>
+                                    <usercontrols:LoginDataTextBoxUC Grid.Row="1" Margin="6" FontFamily="Gotham" PlaceHolderText="Facebook" Text="{Binding Facebook,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></usercontrols:LoginDataTextBoxUC>
+                                    <usercontrols:LoginDataTextBoxUC Grid.Row="2" Margin="6" FontFamily="Gotham" PlaceHolderText="Twitter" Text="{Binding Twitter,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></usercontrols:LoginDataTextBoxUC>
+                                    <usercontrols:LoginDataTextBoxUC Grid.Row="3" Margin="6" FontFamily="Gotham" PlaceHolderText="Snapchat" Text="{Binding Snapchat,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></usercontrols:LoginDataTextBoxUC>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
                     </Border>
-                    <Button Canvas.Bottom="25" Canvas.Right="435" Background="#786A3E" Foreground="White" Width="300" Height="50"
-                                                FontSize="22" FontWeight="DemiBold" Content="Save Changes" Command="{Binding SaveChangesCommand}">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="7"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Cursor" Value="Hand"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
+                    <Button Canvas.Bottom="25" Canvas.Right="435" Style="{StaticResource SaveButtonStyle}" Command="{Binding SaveChangesCommand}"/>
                 </Canvas>
             </TabItem>
         </TabControl>

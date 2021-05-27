@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace CinemaProject_WPF.Models
 {
-    public class Admin : Entity
+    public class Product
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public string ImagePath { get; set; }
+        public string Name { get; set; }
+        public string Price { get; set; }
     }
 }

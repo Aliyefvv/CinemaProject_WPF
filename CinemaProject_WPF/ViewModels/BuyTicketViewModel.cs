@@ -59,9 +59,16 @@ namespace CinemaProject_WPF.ViewModels
             get { return _rbtn3; }
             set { _rbtn3 = value; OnPropertyChanged(); }
         }
+        private int _value;
+        public int Valuee
+        {
+            get { return _value; }
+            set { _value = value; OnPropertyChanged(); }
+        }
 
         public List<ToggleButton> CheapSeats { get; set; } = new List<ToggleButton>();
         public List<ToggleButton> ExpensiveSeats { get; set; } = new List<ToggleButton>();
+        public List<Product> Products { get; set; } = new List<Product>();
 
         public int TicketCount { get; set; } = 0;
         public List<int> TicketNumbers { get; set; } = new List<int>();
@@ -73,6 +80,7 @@ namespace CinemaProject_WPF.ViewModels
         public RelayCommand BuyTicketCommand { get; set; }
         public RelayCommand RadioButtonCheckedCommand { get; set; }
         public RelayCommand SelectedDateChangedDateCommand { get; set; }
+        public RelayCommand SelectProductCommand { get; set; }
 
         public void ClickExecute_CheckedCheapSeat(object param)
         {
@@ -101,6 +109,11 @@ namespace CinemaProject_WPF.ViewModels
             Total -= 7;
             TicketCount--;
             TicketNumbers.Remove(Convert.ToInt32(name));
+        }
+        public void ProductValueChanged(object param)
+        {
+            decimal price = decimal.Parse((param as string).Split()[0]);
+            MessageBox.Show((Valuee * price).ToString());
         }
 
         private void DisableSeats(Ticket ticket)
@@ -138,6 +151,8 @@ namespace CinemaProject_WPF.ViewModels
         }
         public BuyTicketViewModel(string movieTitle)
         {
+            Valuee = 0;
+            Products = DB.Products;
             if (Helper.File.ReadJSON_Tickets("soldtickets.json") != null) DB.SoldTickets = Helper.File.ReadJSON_Tickets("soldtickets.json");
             for (int i = 1; i <= 12; i++)
             {
@@ -193,6 +208,8 @@ namespace CinemaProject_WPF.ViewModels
                 EnableSeats();
                 CheckTickets(movieTitle);
             });
+
+            SelectProductCommand = new RelayCommand(ProductValueChanged);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

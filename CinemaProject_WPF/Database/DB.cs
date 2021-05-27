@@ -6,11 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CinemaProject_WPF.Database
-{   
+{
     public static class DB
     {
         public static List<User> Users { get; set; } = new List<User>();
-        public static List<Admin> Admins { get; set; } = new List<Admin>();
         public static List<Movie> DefaultMovies { get; set; } = new List<Movie>();
         public static List<Pushpin> Pushpins { get; set; } = new List<Pushpin>()
         {
@@ -40,5 +39,38 @@ namespace CinemaProject_WPF.Database
             },
         };
         public static List<Ticket> SoldTickets { get; set; } = new List<Ticket>();
+        public static List<Product> Products { get; set; } = new List<Product>()
+        {
+            new Product()
+            {
+                ImagePath = "../Assets/BuyTicketPage/ProductImages/popcorn.png",
+                Name = "Popcorn",
+                Price = "1 ₼"
+            },
+            new Product()
+            {
+                ImagePath = "../Assets/BuyTicketPage/ProductImages/fanta.png",
+                Name = "Fanta",
+                Price = "2 ₼",
+            },
+            new Product()
+            {
+                ImagePath = "../Assets/BuyTicketPage/ProductImages/pepsi.png",
+                Name = "Pepsi",
+                Price = "2 ₼",
+            },
+            new Product()
+            {
+                ImagePath = "../Assets/BuyTicketPage/ProductImages/lays.gif",
+                Name = "Lays",
+                Price = "3 ₼",
+            },
+             new Product()
+            {
+                ImagePath = "../Assets/BuyTicketPage/ProductImages/water.png",
+                Name = "Water",
+                Price = "1 ₼",
+            }
+        };
     }
 }

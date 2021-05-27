@@ -19,8 +19,9 @@
                     Name="txtblock" 
                     Text="{Binding ElementName=Control, Path=PlaceHolderText}" 
                     Foreground="DimGray"
+                    FontSize="12"
                     Margin="5,3,0,0" 
-                    Padding="4">
+                    Padding="4,5,4,4">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -61,7 +62,7 @@
                     x:Name="txtbox" 
                     VerticalContentAlignment="Center"
                     FontSize="14"
-                    Padding="4,0"
+                    Padding="4,0,0,1"
                     Foreground="#555555" 
                     Margin="1,0.2" 
                     Text="{Binding ElementName=Control,Path=Text}"
