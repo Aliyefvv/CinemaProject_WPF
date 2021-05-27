@@ -149,6 +149,14 @@ namespace CinemaProject_WPF.ViewModels
             foreach (var item in CheapSeats) item.IsEnabled = true;
             foreach (var item in ExpensiveSeats) item.IsEnabled = true;
         }
+
+        public Product product { get; set; } = new Product()
+        {
+            ImagePath = "../Assets/BuyTicketPage/ProductImages/popcorn.png",
+            Name = "Popcorn",
+            Price = "1,5 ₼"
+        };
+
         public BuyTicketViewModel(string movieTitle)
         {
             Valuee = 0;

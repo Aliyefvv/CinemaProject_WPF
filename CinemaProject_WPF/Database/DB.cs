@@ -45,32 +45,33 @@ namespace CinemaProject_WPF.Database
             {
                 ImagePath = "../Assets/BuyTicketPage/ProductImages/popcorn.png",
                 Name = "Popcorn",
-                Price = "1 ₼"
-            },
-            new Product()
-            {
-                ImagePath = "../Assets/BuyTicketPage/ProductImages/fanta.png",
-                Name = "Fanta",
-                Price = "2 ₼",
-            },
-            new Product()
-            {
-                ImagePath = "../Assets/BuyTicketPage/ProductImages/pepsi.png",
-                Name = "Pepsi",
-                Price = "2 ₼",
-            },
-            new Product()
-            {
-                ImagePath = "../Assets/BuyTicketPage/ProductImages/lays.gif",
-                Name = "Lays",
-                Price = "3 ₼",
-            },
-             new Product()
-            {
-                ImagePath = "../Assets/BuyTicketPage/ProductImages/water.png",
-                Name = "Water",
                 Price = "1 ₼",
-            }
+                Value = 0
+            },
+            //new Product()
+            //{
+            //    ImagePath = "../Assets/BuyTicketPage/ProductImages/fanta.png",
+            //    Name = "Fanta",
+            //    Price = "2 ₼",
+            //},
+            //new Product()
+            //{
+            //    ImagePath = "../Assets/BuyTicketPage/ProductImages/pepsi.png",
+            //    Name = "Pepsi",
+            //    Price = "2 ₼",
+            //},
+            //new Product()
+            //{
+            //    ImagePath = "../Assets/BuyTicketPage/ProductImages/lays.gif",
+            //    Name = "Lays",
+            //    Price = "3 ₼",
+            //},
+            // new Product()
+            //{
+            //    ImagePath = "../Assets/BuyTicketPage/ProductImages/water.png",
+            //    Name = "Water",
+            //    Price = "1 ₼",
+            //}
         };
     }
 }

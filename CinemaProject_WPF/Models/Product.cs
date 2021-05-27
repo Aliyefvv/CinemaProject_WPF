@@ -11,5 +11,6 @@ namespace CinemaProject_WPF.Models
         public string ImagePath { get; set; }
         public string Name { get; set; }
         public string Price { get; set; }
+        public int Value { get; set; }
     }
 }
