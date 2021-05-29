@@ -310,9 +310,7 @@ Dolby Digital Atmos позволяет кинематографистам под
                         MovieCountry = Data.Country;
                         MovieLanguage = Data.Language;
                         MovieType = Data.Type;
-
-                        /// This is for Movie Trailer
-                        // Search(MovieTitle); 
+                        Search(MovieTitle); 
                     }
                     catch (Exception) { }
                 }
