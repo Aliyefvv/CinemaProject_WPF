@@ -326,6 +326,7 @@ Dolby Digital Atmos позволяет кинематографистам под
                 MovieCountry = SelectedItem.Country;
                 MovieLanguage = SelectedItem.Language;
                 MovieType = SelectedItem.Type;
+                Search(MovieTitle);
             });
 
             BuyTicketCommand = new RelayCommand((e) =>
