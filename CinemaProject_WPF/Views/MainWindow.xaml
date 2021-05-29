@@ -2,23 +2,23 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CinemaProject_WPF" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         xmlns:map="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF" 
         xmlns:usercontrols="clr-namespace:CinemaProject_WPF.Views.UserControls"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="Cinema Plus"
         Height="700" Width="1200"
         MaxHeight="700" MaxWidth="1200"
         MinHeight="700" MinWidth="1200"
         WindowStartupLocation="CenterScreen"
+        Icon="../Assets/Cinemaplus.png"
         Background="White">
-    <Grid Background="#363636">
-        <TabControl TabStripPlacement="Top" Background="#363636">
+    <Grid Background="#434343">
+        <TabControl TabStripPlacement="Top" Background="#363636" BorderThickness="0">
             <!-- Home -->
-            <TabItem Height="50" Width="100" Header="Home" Foreground="#CCA43B" FontSize="16" Background="#363636" BorderThickness="0">
+            <TabItem Header="Home" Style="{StaticResource MainPageTabItemStyle}">
                 <ScrollViewer Height="{Binding ElementName=MainWindow, Path=ActualHeight}" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
                     <ItemsControl>
                         <Grid>
@@ -118,29 +118,43 @@
                 </ScrollViewer>
             </TabItem>
             <!-- Cinemas -->
-            <TabItem Height="50" Width="100" Header="Cinemas" Foreground="#CCA43B" FontSize="16" Background="#363636" BorderThickness="0">
-                <map:Map CredentialsProvider="{Binding Provider}" ZoomLevel="15" Mode="Road" Center="40.374941366218536, 49.844496887824945" Margin="10">
-                    <map:MapItemsControl ItemsSource="{Binding Pushpins}">
-                        <map:MapItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <map:Pushpin Location="{Binding Location}" Template="{StaticResource PushPinStyle}">
-                                    <map:Pushpin.ToolTip>
-                                        <StackPanel Width="220" Height="180" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Label FontSize="18" FontWeight="DemiBold" Content="{Binding Name}"/>
-                                            <Image Source="{Binding ImagePath}" Stretch="Uniform" Width="250" Height="150"/>
-                                        </StackPanel>
-                                    </map:Pushpin.ToolTip>
-                                </map:Pushpin>
-                            </DataTemplate>
-                        </map:MapItemsControl.ItemTemplate>
-                    </map:MapItemsControl>
-                </map:Map>
+            <TabItem Header="Cinemas" Style="{StaticResource MainPageTabItemStyle}">
+                <Grid>
+                    <map:Map CredentialsProvider="{Binding Provider}" ZoomLevel="15" Mode="{Binding MapMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Center="40.374941366218536, 49.844496887824945" Margin="10">
+                        <map:MapItemsControl ItemsSource="{Binding Pushpins}">
+                            <map:MapItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <map:Pushpin Location="{Binding Location}" Template="{StaticResource PushPinStyle}">
+                                        <map:Pushpin.ToolTip>
+                                            <StackPanel Width="220" Height="180" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Label FontSize="18" FontWeight="DemiBold" Content="{Binding Name}"/>
+                                                <Image Source="{Binding ImagePath}" Stretch="Uniform" Width="250" Height="150"/>
+                                            </StackPanel>
+                                        </map:Pushpin.ToolTip>
+                                    </map:Pushpin>
+                                </DataTemplate>
+                            </map:MapItemsControl.ItemTemplate>
+                        </map:MapItemsControl>
+                    </map:Map>
+                    <ComboBox Name="cbox" Width="160" Height="30" Margin="970,10,0,530" Padding="8,0,0,0"
+                              Style="{StaticResource ComboBoxFlatStyle}"
+                              SelectedItem="{Binding SelectedMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding ChangeMapModeCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ComboBoxItem Content="Road" IsSelected="True"/>
+                        <ComboBoxItem Content="Aerial"/>
+                        <ComboBoxItem Content="Aerial with labels"/>
+                    </ComboBox>
+                </Grid>
             </TabItem>
             <!-- About Us -->
-            <TabItem Height="50" Width="100" Header="About Us" Foreground="#CCA43B" FontSize="16" Background="#363636" BorderThickness="0">
+            <TabItem Header="About Us" Style="{StaticResource MainPageTabItemStyle}">
                 <Canvas>
                     <Label FontSize="55" FontWeight="DemiBold" FontFamily="Gotham" Foreground="#00ACEC" Canvas.Left="440" Canvas.Top="10">Cinema Plus</Label>
-                    <ComboBox Canvas.Top="25" Canvas.Right="25" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <ComboBox Canvas.Top="25" Canvas.Right="25" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ComboBoxFlatStyle}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding SelectedIndexChangedCommand}"/>
@@ -191,15 +205,17 @@
                 </Canvas>
             </TabItem>
             <!-- Profile -->
-            <TabItem FocusManager.FocusedElement="{Binding ElementName=ellipse}" FocusManager.IsFocusScope="True" Height="50" Width="100" Header="Profile" Foreground="#CCA43B" FontSize="16" Background="#363636" BorderThickness="0">
+            <TabItem FocusManager.FocusedElement="{Binding ElementName=ellipse}" FocusManager.IsFocusScope="True" Header="Profile" Style="{StaticResource MainPageTabItemStyle}">
                 <Canvas>
-                    <Button Style="{StaticResource ProfileButtonStyle}"  Canvas.Left="525" Canvas.Top="50" Command="{Binding ChangeProfilePhotoCommand}">
-                        <Ellipse Name="ellipse" Height="150" Width="150">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="{Binding ProfilePhoto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                    </Button>
+                    <Border Canvas.Left="515" Canvas.Top="50"  Width="160" Height="160" CornerRadius="85" BorderThickness="2" BorderBrush="#CCA43B">
+                        <Button Style="{StaticResource ProfileButtonStyle}"  Command="{Binding ChangeProfilePhotoCommand}">
+                            <Ellipse Name="ellipse" Height="150" Width="150">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding ProfilePhoto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                        </Button>
+                    </Border>
                     <Border  Canvas.Left="190" Canvas.Top="240" Background="#CCA43B" CornerRadius="8" Padding="16,5,16,16">
                         <StackPanel>
                             <Label HorizontalAlignment="Center" Foreground="Black" FontSize="25" FontWeight="DemiBold" Margin="12">Profile</Label>
@@ -239,10 +255,26 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <Image Grid.Row="0" Width="25" Height="25" Margin="4,8.8" Source="../Assets/MainPage/Profile/instagram.png" Stretch="Fill"/>
-                                    <Image Grid.Row="1" Width="25" Height="25" Margin="4,8.8" Source="../Assets/MainPage/Profile/facebook.png" Stretch="Fill"/>
-                                    <Image Grid.Row="2" Width="25" Height="25" Margin="4,8.8" Source="../Assets/MainPage/Profile/twitter.png" Stretch="Fill"/>
-                                    <Image Grid.Row="3" Width="25" Height="25" Margin="4,8.8" Source="../Assets/MainPage/Profile/snapchat.png" Stretch="Fill"/>
+                                    <Button Grid.Row="0" Style="{StaticResource MiniSocialMediaButtonStyle}" Command="{Binding SocialMediaCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding Instagram}">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="../Assets/MainPage/Profile/instagram.png" Stretch="Fill"/>
+                                        </Button.Background>
+                                    </Button>
+                                    <Button Grid.Row="0" Style="{StaticResource MiniSocialMediaButtonStyle}" Command="{Binding SocialMediaCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding Facebook}">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="../Assets/MainPage/Profile/facebook.png" Stretch="Fill"/>
+                                        </Button.Background>
+                                    </Button>
+                                    <Button Grid.Row="0" Style="{StaticResource MiniSocialMediaButtonStyle}" Command="{Binding SocialMediaCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding Twitter}">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="../Assets/MainPage/Profile/twitter.png" Stretch="Fill"/>
+                                        </Button.Background>
+                                    </Button>
+                                    <Button Grid.Row="0" Style="{StaticResource MiniSocialMediaButtonStyle}" Command="{Binding SocialMediaCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding Snapchat}">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="../Assets/MainPage/Profile/snapchat.png" Stretch="Fill"/>
+                                        </Button.Background>
+                                    </Button>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1">
                                     <Label Grid.Row="0" Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="2.4">Instagram</Label>

@@ -59,12 +59,21 @@ namespace CinemaProject_WPF.ViewModels
             get { return _rbtn3; }
             set { _rbtn3 = value; OnPropertyChanged(); }
         }
-        private int _value;
-        public int Valuee
+
+        public Product Popcorn { get; set; } = DB.Products[0];
+        public Product Fanta { get; set; } = DB.Products[1];
+        public Product Pepsi { get; set; } = DB.Products[2];
+        public Product Lays { get; set; } = DB.Products[3];
+        public Product Water { get; set; } = DB.Products[4];
+
+        public Dictionary<string, int> ProductCounts { get; set; } = new Dictionary<string, int>()
         {
-            get { return _value; }
-            set { _value = value; OnPropertyChanged(); }
-        }
+            ["Popcorn"] = 0,
+            ["Fanta"] = 0,
+            ["Pepsi"] = 0,
+            ["Lays"] = 0,
+            ["Water"] = 0,
+        };
 
         public List<ToggleButton> CheapSeats { get; set; } = new List<ToggleButton>();
         public List<ToggleButton> ExpensiveSeats { get; set; } = new List<ToggleButton>();
@@ -110,10 +119,22 @@ namespace CinemaProject_WPF.ViewModels
             TicketCount--;
             TicketNumbers.Remove(Convert.ToInt32(name));
         }
+
         public void ProductValueChanged(object param)
         {
-            decimal price = decimal.Parse((param as string).Split()[0]);
-            MessageBox.Show((Valuee * price).ToString());
+            var product = param as Product;
+            if(product.Value > ProductCounts[product.ProductName])
+            {
+                decimal price = decimal.Parse(product.Price.Split()[0]);
+                Total += price;
+                ProductCounts[product.ProductName] = product.Value;
+            }
+            else
+            {
+                decimal price = decimal.Parse(product.Price.Split()[0]);
+                Total -= price;
+                ProductCounts[product.ProductName] = product.Value;
+            }
         }
 
         private void DisableSeats(Ticket ticket)
@@ -122,13 +143,11 @@ namespace CinemaProject_WPF.ViewModels
             {
                 if (CheapSeats.Exists(s => s.Content.ToString() == item.ToString()))
                 {
-                    var btn = CheapSeats.FirstOrDefault(s => s.Content.ToString() == item.ToString());
-                    btn.IsEnabled = false;
+                    CheapSeats.FirstOrDefault(s => s.Content.ToString() == item.ToString()).IsEnabled = false;
                 }
                 if (ExpensiveSeats.Exists(s => s.Content.ToString() == item.ToString()))
                 {
-                    var btn = ExpensiveSeats.FirstOrDefault(s => s.Content.ToString() == item.ToString());
-                    btn.IsEnabled = false;
+                    ExpensiveSeats.FirstOrDefault(s => s.Content.ToString() == item.ToString()).IsEnabled = false;
                 }
             }
         }
@@ -141,26 +160,32 @@ namespace CinemaProject_WPF.ViewModels
                     if (t.Time == "13:00-15:00" && RadioButton1) DisableSeats(t);
                     else if (t.Time == "16:00-18:00" && RadioButton2) DisableSeats(t);
                     else if (t.Time == "20:00-22:00" && RadioButton3) DisableSeats(t);
+                    else EnableSeats(t);
                 }
             }
         }
-        public void EnableSeats()
+        public void EnableSeats(Ticket ticket)
         {
-            foreach (var item in CheapSeats) item.IsEnabled = true;
-            foreach (var item in ExpensiveSeats) item.IsEnabled = true;
-        }
+            //foreach (var item in CheapSeats) if(item.IsEnabled == false) item.IsEnabled = true;
+            //foreach (var item in ExpensiveSeats) if (item.IsEnabled == false) item.IsEnabled = true;
 
-        public Product product { get; set; } = new Product()
-        {
-            ImagePath = "../Assets/BuyTicketPage/ProductImages/popcorn.png",
-            Name = "Popcorn",
-            Price = "1,5 ₼"
-        };
+            foreach (var item in ticket.TicketNumbers)
+            {
+                if (CheapSeats.Exists(s => s.Content.ToString() == item.ToString()))
+                {
+                    var btn = CheapSeats.FirstOrDefault(s => s.Content.ToString() == item.ToString());
+                    btn.IsEnabled = true;
+                }
+                if (ExpensiveSeats.Exists(s => s.Content.ToString() == item.ToString()))
+                {
+                    var btn = ExpensiveSeats.FirstOrDefault(s => s.Content.ToString() == item.ToString());
+                    btn.IsEnabled = true;
+                }
+            }
+        }
 
         public BuyTicketViewModel(string movieTitle)
         {
-            Valuee = 0;
-            Products = DB.Products;
             if (Helper.File.ReadJSON_Tickets("soldtickets.json") != null) DB.SoldTickets = Helper.File.ReadJSON_Tickets("soldtickets.json");
             for (int i = 1; i <= 12; i++)
             {
@@ -189,31 +214,36 @@ namespace CinemaProject_WPF.ViewModels
             CheckTickets(movieTitle);
             BuyTicketCommand = new RelayCommand((e) =>
             {
-                Ticket ticket = new Ticket();
-                ticket.MovieName = movieTitle;
-                ticket.Date = SelectedDate;
-                if (RadioButton1) ticket.Time = "13:00-15:00";
-                else if (RadioButton2) ticket.Time = "16:00-18:00";
-                else if (RadioButton3) ticket.Time = "20:00-22:00";
-                ticket.TicketCount = TicketCount;
-                ticket.Total = Total;
-                ticket.TicketNumbers = TicketNumbers;
-                Helper.File.PrintVaucher(ticket);
-                DB.SoldTickets.Add(ticket);
-                MessageBox.Show("Thank you for buying tickets. Enjoy it !", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
-                File.WriteJSON(DB.SoldTickets, "soldtickets.json");
-                CloseAction();
+                var result = MessageBox.Show($"Do you want to buy this ticket for {Total}₼ ?", "Message", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if(result == MessageBoxResult.Yes)
+                {
+                    Ticket ticket = new Ticket();
+                    ticket.MovieName = movieTitle;
+                    ticket.Date = SelectedDate;
+                    if (RadioButton1) ticket.Time = "13:00-15:00";
+                    else if (RadioButton2) ticket.Time = "16:00-18:00";
+                    else if (RadioButton3) ticket.Time = "20:00-22:00";
+                    ticket.TicketCount = TicketCount;
+                    ticket.Total = Total;
+                    ticket.TicketNumbers = TicketNumbers;
+                    ticket.Snacks = ProductCounts;
+                    Helper.File.PrintVaucherPDF(ticket);
+                    DB.SoldTickets.Add(ticket);
+                    MessageBox.Show("Thank you for buying tickets. Enjoy it !", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
+                    File.WriteJSON(DB.SoldTickets, "soldtickets.json");
+                    CloseAction();
+                }
             });
 
             RadioButtonCheckedCommand = new RelayCommand((e) =>
             {
-                EnableSeats();
+                //EnableSeats();
                 CheckTickets(movieTitle);
             });
 
             SelectedDateChangedDateCommand = new RelayCommand((e) =>
             {
-                EnableSeats();
+                //EnableSeats();
                 CheckTickets(movieTitle);
             });
 

@@ -1,4 +1,6 @@
 ﻿using CinemaProject_WPF.Models;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -52,28 +54,36 @@ namespace CinemaProject_WPF.Helper
                 return serializer.Deserialize<List<Ticket>>(jr);
         }
 
-        public static void PrintVaucher(Ticket ticket)
+        public static void PrintVaucherPDF(Ticket ticket)
         {
             Guid ID = Guid.NewGuid();
-            using (FileStream fs = new FileStream(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)
-                 + "\\\\" + ID.ToString() + ".txt", FileMode.Create))
-            using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
-            {
-                sw.WriteLine($"============================================");
-                sw.WriteLine($" Date : {DateTime.Now.ToLongDateString()} {DateTime.Now.ToLongTimeString()}");
-                sw.WriteLine($"============================================");
-                sw.WriteLine($" Movie Name : {ticket?.MovieName}");
-                sw.WriteLine($" Date : {ticket?.Date}");
-                sw.WriteLine($" Time : {ticket?.Time}");
-                sw.WriteLine($" Ticket Count : {ticket?.TicketCount}");
-                string nums = "";
-                foreach (var number in ticket?.TicketNumbers)
-                    nums += number.ToString() + ", ";
-                sw.WriteLine($" Ticket Numbers : {nums}");
-                sw.WriteLine($"--------------------------------------------");
-                sw.WriteLine($" TOTAL : {ticket?.Total} azn");
-                sw.WriteLine($"============================================");
-            }
+            iTextSharp.text.Document oDoc = new iTextSharp.text.Document();
+            PdfWriter.GetInstance(oDoc, new FileStream(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)
+                 + "\\\\" + ID.ToString() + ".pdf", FileMode.Create));
+            oDoc.Open();
+            iTextSharp.text.Image companyLogo = iTextSharp.text.Image.GetInstance("../../Assets/BuyTicketPage/Images/cinemaplus.png");
+            companyLogo.Alignment = Element.ALIGN_CENTER;
+            companyLogo.ScaleAbsolute(250, 75);
+            oDoc.Add(companyLogo);
+            oDoc.Add(new Paragraph($"                                     ======================================="));
+            oDoc.Add(new Paragraph($"                                       Date : {DateTime.Now.ToLongDateString()} {DateTime.Now.ToLongTimeString()}"));
+            oDoc.Add(new Paragraph($"                                     ======================================="));
+            oDoc.Add(new Paragraph($"                                       Movie Name : {ticket?.MovieName}"));
+            oDoc.Add(new Paragraph($"                                       Date : {ticket?.Date.ToShortDateString()}"));
+            oDoc.Add(new Paragraph($"                                       Time : {ticket?.Time}"));
+            oDoc.Add(new Paragraph($"                                       Ticket Count : {ticket?.TicketCount}"));
+            string nums = "";
+            foreach (var number in ticket?.TicketNumbers)
+                nums += number.ToString() + ", ";
+            oDoc.Add(new Paragraph($"                                       Ticket Numbers : {nums}"));
+            oDoc.Add(new Paragraph($"                                     -------------------------------------------------------------------"));
+            bool haveProduct = false;
+            foreach (var item in ticket.Snacks)
+                if (item.Value > 0) { oDoc.Add(new Paragraph($"                                       {item.Key} : {item.Value}")); haveProduct = true; }
+            if(haveProduct) oDoc.Add(new Paragraph($"                                     -------------------------------------------------------------------"));
+            oDoc.Add(new Paragraph($"                                       TOTAL : {ticket?.Total} azn"));
+            oDoc.Add(new Paragraph($"                                     ======================================="));
+            oDoc.Close();
         }
     }
 }

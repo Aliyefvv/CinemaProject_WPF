@@ -13,6 +13,7 @@ namespace CinemaProject_WPF.Models
         public string Time { get; set; }
         public int TicketCount { get; set; }
         public List<int> TicketNumbers { get; set; }
+        public Dictionary<string,int> Snacks { get; set; }
         public decimal Total { get; set; }
     }
 }

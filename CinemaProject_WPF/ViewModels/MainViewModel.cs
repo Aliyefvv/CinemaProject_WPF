@@ -151,6 +151,18 @@ namespace CinemaProject_WPF.ViewModels
             get { return _selectedIndex; }
             set { _selectedIndex = value; OnPropertyChanged(); }
         }
+        private MapMode mapMode;
+        public MapMode MapMode
+        {
+            get { return mapMode; }
+            set { mapMode = value; OnPropertyChanged(); }
+        }
+        private string selectedMode;
+        public string SelectedMode
+        {
+            get { return selectedMode; }
+            set { selectedMode = value; OnPropertyChanged(); }
+        }
         private string _about;
         public string About
         {
@@ -218,7 +230,17 @@ Dolby Digital Atmos позволяет кинематографистам под
         public RelayCommand YoutubeCommand { get; set; }
         public RelayCommand TwitterCommand { get; set; }
         public RelayCommand SelectedIndexChangedCommand { get; set; }
+        public RelayCommand ChangeMapModeCommand { get; set; }
+        public RelayCommand SocialMediaCommand { get; set; }
 
+        public void OpenSocialMediaPage(object param)
+        {
+            if (param != null)
+            {
+                string url = param as string;
+                System.Diagnostics.Process.Start(url);
+            }
+        }
 
         private async void Search(string movieName)
         {
@@ -253,178 +275,6 @@ Dolby Digital Atmos позволяет кинематографистам под
 
         public dynamic Data { get; set; }
         readonly HttpClient http = new HttpClient();
-        public MainViewModel()
-        {
-            About = AboutAZ;
-            //Name = user.Name;
-            //Surname = user.Surname;
-            //Email = user.Email;
-            //Password = user.Password;
-            //ProfilePhoto = user.ProfilePhoto;
-
-            GetMovies();
-
-            SearchCommand = new RelayCommand((e) =>
-            {
-                HttpResponseMessage response = new HttpResponseMessage();
-                var name = SearchText;
-                response = http.GetAsync($@"http://www.omdbapi.com/?apikey=a91a5037&t={name}&plot=full").Result;
-                var str = response.Content.ReadAsStringAsync().Result;
-                Data = JsonConvert.DeserializeObject(str);
-                if (name.Length > 1)
-                {
-                    try
-                    {
-                        MoviePosterPath = Data.Poster;
-                        MovieTitle = Data.Title;
-                        MovieIMDB = Data.imdbRating;
-                        MovieYear = Data.Released;
-                        MovieGenre = Data.Genre;
-                        MovieCountry = Data.Country;
-                        MovieLanguage = Data.Language;
-                        MovieType = Data.Type;
-
-                        /// This is for Movie Trailer
-                        // Search(MovieTitle); 
-                    }
-                    catch (Exception) { }
-                }
-            });
-
-            SelectedItemChangedCommand = new RelayCommand((e) =>
-            {
-                MoviePosterPath = SelectedItem.PosterPath;
-                MovieTitle = SelectedItem.Title;
-                MovieIMDB = SelectedItem.IMDB;
-                MovieYear = SelectedItem.Year;
-                MovieGenre = SelectedItem.Genre;
-                MovieCountry = SelectedItem.Country;
-                MovieLanguage = SelectedItem.Language;
-                MovieType = SelectedItem.Type;
-            });
-
-            BuyTicketCommand = new RelayCommand((e) =>
-            {
-                if (MovieTitle != null)
-                {
-                    BuyTicketWindow buyTicketWindow = new BuyTicketWindow(MovieTitle);
-                    buyTicketWindow.ShowDialog();
-                }
-                else MessageBox.Show("You must select a movie !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            });
-
-            //SaveChangesCommand = new RelayCommand((e) =>
-            //{
-            //    foreach (var item in DB.Users)
-            //    {
-            //        if (user.ID == item.ID)
-            //        {
-            //            bool find = false;
-            //            Regex email_regex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
-            //            Regex instagram_regex = new Regex(@"(https?)?:?(www)?instagram\.com/[a-z].{3}");
-            //            Regex facebook_regex = new Regex(@"(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)");
-            //            Regex twitter_regex = new Regex(@"/(?:http:\/\/)?(?:www\.)?twitter\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/");
-            //            Regex snapchat_regex = new Regex(@"^(?!.*\.\.|.*__|.*\-\-)(?!.*\.$|.*_$|.*\-$)(?!.*\.\-|.*\-\.|.*\-_|.*_\-|.*\._|.*_\.)[a-zA-Z]+[\w.-][0-9A-z]{0,15}$");
-            //            if (Name == null) MessageBox.Show("Name can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //            else if (Surname == null) MessageBox.Show("Surname can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //            else if (Email == null) MessageBox.Show("Email can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //            else if (!email_regex.IsMatch(Email)) MessageBox.Show("Email is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //            else if (Password == null) MessageBox.Show("Passowrd can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //            else if (Password.Length < 8) MessageBox.Show("Your password must be longer than 8 characters !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //            if (Instagram != string.Empty)
-            //            {
-            //                if (!instagram_regex.IsMatch(Instagram))
-            //                    MessageBox.Show("Instagram is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //            }
-            //            if (Facebook != string.Empty)
-            //            {
-            //                if (!facebook_regex.IsMatch(Facebook))
-            //                    MessageBox.Show("Facebook is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //            }
-            //            if (Twitter != string.Empty)
-            //            {
-            //                if (!twitter_regex.IsMatch(Twitter))
-            //                    MessageBox.Show("Twitter is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //            }
-            //            if (Snapchat != string.Empty)
-            //            {
-            //                if (!snapchat_regex.IsMatch(Snapchat))
-            //                    MessageBox.Show("Snapchat is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //            }
-            //            if (Repo.GetUsers() != null)
-            //            {
-            //                foreach (var repo_user in Repo.GetUsers())
-            //                    if (repo_user.Email == Email && Email != user.Email)
-            //                    {
-            //                        find = true;
-            //                        MessageBox.Show("Email is already used", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //                    }
-            //            }
-            //            if (!find)
-            //            {
-            //                if (Name != null && Surname != null && Email != null && email_regex.IsMatch(Email) && Password != null && Password.Length > 8)
-            //                {
-            //                    item.Name = Name;
-            //                    item.Surname = Surname;
-            //                    item.Email = Email;
-            //                    item.Password = Password;
-            //                    item.Instagram = Instagram;
-            //                    item.Facebook = Facebook;
-            //                    item.Twitter = Twitter;
-            //                    item.Snapchat = Snapchat;
-            //                    item.ProfilePhoto = ProfilePhoto;
-            //                    File.UpdateUser(DB.Users);
-            //                }
-            //            }
-            //        }
-            //    }
-            //});
-
-            ChangeProfilePhotoCommand = new RelayCommand((e) =>
-            {
-                OpenFileDialog op = new OpenFileDialog
-                {
-                    Title = "Select a picture",
-                    Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
-                             "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
-                             "Portable Network Graphic (*.png)|*.png"
-                };
-                if (op.ShowDialog() == true)
-                {
-                    ProfilePhoto = op.FileName;
-                }
-            });
-
-            InstagramCommand = new RelayCommand((e) =>
-            {
-                System.Diagnostics.Process.Start("https://www.instagram.com/cinemaplusaz/");
-            });
-
-            FacebookCommand = new RelayCommand((e) =>
-            {
-                System.Diagnostics.Process.Start("https://www.facebook.com/CINEMAPLUS.az/");
-            });
-
-            YoutubeCommand = new RelayCommand((e) =>
-            {
-                System.Diagnostics.Process.Start("https://www.youtube.com/user/The28Cinema?feature=watch");
-            });
-
-            TwitterCommand = new RelayCommand((e) =>
-            {
-                System.Diagnostics.Process.Start("https://twitter.com/CinemaPlusAz");
-            });
-
-            SelectedIndexChangedCommand = new RelayCommand((e) =>
-            {
-                if (SelectedIndex == 0) About = AboutAZ;
-                else if (SelectedIndex == 1) About = AboutEN;
-                else if (SelectedIndex == 2) About = AboutRU;
-            });
-
-            Provider = new ApplicationIdCredentialsProvider(Key);
-            Pushpins = DB.Pushpins;
-        } // Sign In hissesin hazir edenden sonra sil
 
         public MainViewModel(User user)
         {
@@ -434,6 +284,10 @@ Dolby Digital Atmos позволяет кинематографистам под
             Email = user.Email;
             Password = user.Password;
             ProfilePhoto = user.ProfilePhoto;
+            Instagram = user.Instagram;
+            Facebook = user.Facebook;
+            Twitter = user.Twitter;
+            Snapchat = user.Snapchat;
 
             GetMovies();
 
@@ -488,6 +342,7 @@ Dolby Digital Atmos позволяет кинематографистам под
 
             SaveChangesCommand = new RelayCommand((e) =>
             {
+                bool haveWarning = false;
                 foreach (var item in DB.Users)
                 {
                     if (user.ID == item.ID)
@@ -504,38 +359,38 @@ Dolby Digital Atmos позволяет кинематографистам под
                         else if (!email_regex.IsMatch(Email)) MessageBox.Show("Email is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                         else if (Password == null) MessageBox.Show("Passowrd can't be emtpy !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                         else if (Password.Length < 8) MessageBox.Show("Your password must be longer than 8 characters !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        if (Instagram != string.Empty)
+                        if (Instagram != null)
                         {
-                            if (!instagram_regex.IsMatch(Instagram))
-                                MessageBox.Show("Instagram is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            if (!instagram_regex.IsMatch(Instagram) && Instagram != "")
+                            { MessageBox.Show("Instagram is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning); haveWarning = true; }
                         }
-                        if (Facebook != string.Empty)
+                        if (Facebook != null)
                         {
-                            if (!facebook_regex.IsMatch(Facebook))
-                                MessageBox.Show("Facebook is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            if (!facebook_regex.IsMatch(Facebook) && Facebook != "")
+                            { MessageBox.Show("Facebook is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning); haveWarning = true; }
                         }
-                        if (Twitter != string.Empty)
+                        if (Twitter != null)
                         {
-                            if (!twitter_regex.IsMatch(Twitter))
-                                MessageBox.Show("Twitter is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            if (!twitter_regex.IsMatch(Twitter) && Twitter != "")
+                            { MessageBox.Show("Twitter is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning); haveWarning = true; }
                         }
-                        if (Snapchat != string.Empty)
+                        if (Snapchat != null)
                         {
-                            if (!snapchat_regex.IsMatch(Snapchat))
-                                MessageBox.Show("Snapchat is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            if (!snapchat_regex.IsMatch(Snapchat) && Snapchat != "")
+                            { MessageBox.Show("Snapchat is not valid !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning); haveWarning = true; }
                         }
                         if (Repo.GetUsers() != null)
                         {
                             foreach (var repo_user in Repo.GetUsers())
                                 if (repo_user.Email == Email && Email != user.Email)
                                 {
-                                    find = true;
                                     MessageBox.Show("Email is already used", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                    find = true; haveWarning = true;
                                 }
                         }
                         if (!find)
                         {
-                            if (Name != null && Surname != null && Email != null && email_regex.IsMatch(Email) && Password != null && Password.Length > 8)
+                            if (Name != null && Surname != null && Email != null && email_regex.IsMatch(Email) && Password != null && Password.Length > 8 && !haveWarning)
                             {
                                 item.Name = Name;
                                 item.Surname = Surname;
@@ -547,6 +402,7 @@ Dolby Digital Atmos позволяет кинематографистам под
                                 item.Snapchat = Snapchat;
                                 item.ProfilePhoto = ProfilePhoto;
                                 File.UpdateUser(DB.Users);
+                                MessageBox.Show("All Changes Saved !", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                             }
                         }
                     }
@@ -594,6 +450,15 @@ Dolby Digital Atmos позволяет кинематографистам под
                 else if (SelectedIndex == 1) About = AboutEN;
                 else if (SelectedIndex == 2) About = AboutRU;
             });
+
+            ChangeMapModeCommand = new RelayCommand((e) =>
+            {
+                if (SelectedMode == "System.Windows.Controls.ComboBoxItem: Aerial") MapMode = new AerialMode();
+                else if (SelectedMode == "System.Windows.Controls.ComboBoxItem: Aerial with labels") MapMode = new AerialMode(true);
+                else if (SelectedMode == "System.Windows.Controls.ComboBoxItem: Road") MapMode = new RoadMode();
+            });
+
+            SocialMediaCommand = new RelayCommand(OpenSocialMediaPage);
 
             Provider = new ApplicationIdCredentialsProvider(Key);
             Pushpins = DB.Pushpins;

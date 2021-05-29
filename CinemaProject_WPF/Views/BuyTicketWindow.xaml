@@ -10,12 +10,13 @@
         Title="Buy Ticket" Height="500" Width="1100"
         MinHeight="500" MaxHeight="500"
         MinWidth="1100" MaxWidth="1100"
+        Icon="../Assets/BuyTicketPage/Images/ticket.png"
         WindowStartupLocation="CenterScreen">
     <Grid Background="#363636">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1.5*"></ColumnDefinition>
             <ColumnDefinition Width="4*"></ColumnDefinition>
-            <ColumnDefinition Width="2.3*"></ColumnDefinition>
+            <ColumnDefinition Width="2.1*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
         <Canvas Grid.Row="0">
@@ -113,46 +114,7 @@
 
         <Canvas Grid.Column="2">
             <Label Content="Snacks" Foreground="White" FontSize="35" FontWeight="DemiBold" FontFamily="Arial" Canvas.Top="5" Canvas.Left="65"/>
-            <!--<ListBox
-                Background="red"
-                IsEnabled="True"
-                Canvas.Bottom="5"
-                Canvas.Right="10" 
-                Style="{StaticResource ProductListStyle}"
-                ItemsSource="{Binding Products}" 
-                BorderThickness="0" 
-                ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                ScrollViewer.VerticalScrollBarVisibility="Disabled" 
-                Padding="0">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border Width="290" Height="65" Canvas.Left="10" Canvas.Top="60" Background="#CCA43B" CornerRadius="8" Margin="0,6">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.9*"/>
-                                    <ColumnDefinition Width="1.5*"/>
-                                    <ColumnDefinition Width="0.9*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Margin="9,0,0,0" Width="50" Source="{Binding ImagePath}"/>
-                                <Label Grid.Column="1" Content="{Binding Name}" Margin="5,15,0,0" FontSize="22" FontWeight="DemiBold" />
-                                <Label Grid.Column="2" Content="{Binding Price}" Margin="0,15,0,0" FontSize="22" FontWeight="DemiBold"/>
-                                <xctk:IntegerUpDown Grid.Column="3" Width="60" Height="40" Minimum="0" Maximum="50" Margin="0,0,0,0" FontSize="25"
-                                                    Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,10,0">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="ValueChanged">
-                                            <i:InvokeCommandAction
-                                                Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DataContext.SelectProductCommand}"
-                                                CommandParameter="{Binding Price}"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </xctk:IntegerUpDown>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>-->
-            <StackPanel Canvas.Bottom="5" Canvas.Right="10" Background="SpringGreen">
+            <StackPanel Canvas.Bottom="20" Canvas.Right="20">
                 <Border Width="290" Height="65" Canvas.Left="10" Canvas.Top="60" Background="#CCA43B" CornerRadius="8" Margin="0,6">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -161,16 +123,19 @@
                             <ColumnDefinition Width="0.9*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Margin="9,0,0,0" Width="50" />
-                        <Label Grid.Column="1" Content="{Binding product.Name}" Margin="5,15,0,0" FontSize="22" FontWeight="DemiBold" />
-                        <Label Grid.Column="2" Content="{Binding product.Price}" Margin="0,15,0,0" FontSize="22" FontWeight="DemiBold"/>
+                        <Image Grid.Column="0" Margin="9,0,0,0" Width="50" Source="{Binding Popcorn.ImagePath}"/>
+                        <Label Grid.Column="1" Content="{Binding Popcorn.ProductName}" Margin="5,15,0,0" FontSize="22" FontWeight="DemiBold" />
+                        <Label Grid.Column="2" Content="{Binding Popcorn.Price}" Margin="0,15,0,0" FontSize="22" FontWeight="DemiBold"/>
                         <xctk:IntegerUpDown Grid.Column="3" Width="60" Height="40" Minimum="0" Maximum="50" Margin="0,0,0,0" FontSize="25"
-                                                    Value="{Binding Valuee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,10,0">
+                                                    Value="{Binding Popcorn.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,10,0">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="ValueChanged">
                                     <i:InvokeCommandAction
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DataContext.SelectProductCommand}"
-                                                CommandParameter="{Binding product.Price}"/>
+                                                CommandParameter="{Binding Popcorn}"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="KeyDown">
+
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </xctk:IntegerUpDown>
@@ -184,16 +149,16 @@
                             <ColumnDefinition Width="0.9*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Margin="9,0,0,0" Width="50" />
-                        <Label Grid.Column="1" Content="{Binding product.Name}" Margin="5,15,0,0" FontSize="22" FontWeight="DemiBold" />
-                        <Label Grid.Column="2" Content="{Binding product.Price}" Margin="0,15,0,0" FontSize="22" FontWeight="DemiBold"/>
+                        <Image Grid.Column="0" Margin="9,0,0,0" Width="50" Source="{Binding Fanta.ImagePath}"/>
+                        <Label Grid.Column="1" Content="{Binding Fanta.ProductName}" Margin="5,15,0,0" FontSize="22" FontWeight="DemiBold" />
+                        <Label Grid.Column="2" Content="{Binding Fanta.Price}" Margin="0,15,0,0" FontSize="22" FontWeight="DemiBold"/>
                         <xctk:IntegerUpDown Grid.Column="3" Width="60" Height="40" Minimum="0" Maximum="50" Margin="0,0,0,0" FontSize="25"
-                                                    Value="{Binding Valuee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,10,0">
+                                                    Value="{Binding Fanta.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,10,0">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="ValueChanged">
                                     <i:InvokeCommandAction
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DataContext.SelectProductCommand}"
-                                                CommandParameter="{Binding product.Price}"/>
+                                                CommandParameter="{Binding Fanta}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </xctk:IntegerUpDown>
@@ -207,16 +172,16 @@
                             <ColumnDefinition Width="0.9*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Margin="9,0,0,0" Width="50" />
-                        <Label Grid.Column="1" Content="{Binding product.Name}" Margin="5,15,0,0" FontSize="22" FontWeight="DemiBold" />
-                        <Label Grid.Column="2" Content="{Binding product.Price}" Margin="0,15,0,0" FontSize="22" FontWeight="DemiBold"/>
+                        <Image Grid.Column="0" Margin="9,0,0,0" Width="50" Source="{Binding Pepsi.ImagePath}"/>
+                        <Label Grid.Column="1" Content="{Binding Pepsi.ProductName}" Margin="5,15,0,0" FontSize="22" FontWeight="DemiBold" />
+                        <Label Grid.Column="2" Content="{Binding Pepsi.Price}" Margin="0,15,0,0" FontSize="22" FontWeight="DemiBold"/>
                         <xctk:IntegerUpDown Grid.Column="3" Width="60" Height="40" Minimum="0" Maximum="50" Margin="0,0,0,0" FontSize="25"
-                                                    Value="{Binding Valuee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,10,0">
+                                                    Value="{Binding Pepsi.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,10,0">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="ValueChanged">
                                     <i:InvokeCommandAction
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DataContext.SelectProductCommand}"
-                                                CommandParameter="{Binding product.Price}"/>
+                                                CommandParameter="{Binding Pepsi}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </xctk:IntegerUpDown>
@@ -230,16 +195,16 @@
                             <ColumnDefinition Width="0.9*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Margin="9,0,0,0" Width="50" />
-                        <Label Grid.Column="1" Content="{Binding product.Name}" Margin="5,15,0,0" FontSize="22" FontWeight="DemiBold" />
-                        <Label Grid.Column="2" Content="{Binding product.Price}" Margin="0,15,0,0" FontSize="22" FontWeight="DemiBold"/>
+                        <Image Grid.Column="0" Margin="9,0,0,0" Width="50" Source="{Binding Lays.ImagePath}"/>
+                        <Label Grid.Column="1" Content="{Binding Lays.ProductName}" Margin="5,15,0,0" FontSize="22" FontWeight="DemiBold" />
+                        <Label Grid.Column="2" Content="{Binding Lays.Price}" Margin="0,15,0,0" FontSize="22" FontWeight="DemiBold"/>
                         <xctk:IntegerUpDown Grid.Column="3" Width="60" Height="40" Minimum="0" Maximum="50" Margin="0,0,0,0" FontSize="25"
-                                                    Value="{Binding Valuee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,10,0">
+                                                    Value="{Binding Lays.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,10,0">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="ValueChanged">
                                     <i:InvokeCommandAction
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DataContext.SelectProductCommand}"
-                                                CommandParameter="{Binding product.Price}"/>
+                                                CommandParameter="{Binding Lays}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </xctk:IntegerUpDown>
@@ -253,16 +218,16 @@
                             <ColumnDefinition Width="0.9*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Margin="9,0,0,0" Width="50" />
-                        <Label Grid.Column="1" Content="{Binding product.Name}" Margin="5,15,0,0" FontSize="22" FontWeight="DemiBold" />
-                        <Label Grid.Column="2" Content="{Binding product.Price}" Margin="0,15,0,0" FontSize="22" FontWeight="DemiBold"/>
+                        <Image Grid.Column="0" Margin="9,0,0,0" Width="50" Source="{Binding Water.ImagePath}"/>
+                        <Label Grid.Column="1" Content="{Binding Water.ProductName}" Margin="5,15,0,0" FontSize="22" FontWeight="DemiBold" />
+                        <Label Grid.Column="2" Content="{Binding Water.Price}" Margin="0,15,0,0" FontSize="22" FontWeight="DemiBold"/>
                         <xctk:IntegerUpDown Grid.Column="3" Width="60" Height="40" Minimum="0" Maximum="50" Margin="0,0,0,0" FontSize="25"
-                                                    Value="{Binding Valuee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,10,0">
+                                                    Value="{Binding Water.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,10,0">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="ValueChanged">
                                     <i:InvokeCommandAction
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DataContext.SelectProductCommand}"
-                                                CommandParameter="{Binding product.Price}"/>
+                                                CommandParameter="{Binding Water}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </xctk:IntegerUpDown>

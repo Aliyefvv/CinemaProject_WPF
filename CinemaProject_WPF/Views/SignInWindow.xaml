@@ -9,6 +9,7 @@
         Height="400" Width="600"
         MaxHeight="400" MaxWidth="600"
         MinHeight="400" MinWidth="600"
+        Icon="../Assets/LoginPage/Images/login.png"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -26,11 +27,9 @@
         <Grid Grid.Column="1"
               Background="White">
             <Label FontSize="36" FontWeight="DemiBold" Margin="100,70" Foreground="#363636" >Sign In</Label>
-
             <usercontrols:LoginDataTextBoxUC x:Name="txtbx_Email" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceHolderText="Email" Margin="20,0,20,40"/>
             <usercontrols:LoginDataTextBoxUC x:Name="txtbx_Passoword" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceHolderText="Passowrd" Margin="20,80,20,40"/>
             <Button x:Name="btn_SignUp" Margin="60,170,60,35" Content="Sign In" Command="{Binding SignInCommand}" Style="{StaticResource LoginButtonStyle}"/>
-
             <Label Background="Transparent" Foreground="#3382EA" Margin="80,268,60,30">Don't have an account ?</Label>
             <Button Content="Sign Up" Margin="200,230,60,30" Command="{Binding SignUpCommand}" Style="{StaticResource MiniLoginButtonStyle}"/>
         </Grid>
