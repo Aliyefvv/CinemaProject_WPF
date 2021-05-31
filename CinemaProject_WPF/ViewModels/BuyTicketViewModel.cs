@@ -123,7 +123,7 @@ namespace CinemaProject_WPF.ViewModels
         public void ProductValueChanged(object param)
         {
             var product = param as Product;
-            if(product.Value > ProductCounts[product.ProductName])
+            if (product.Value > ProductCounts[product.ProductName])
             {
                 decimal price = decimal.Parse(product.Price.Split()[0]);
                 Total += price;
@@ -160,15 +160,12 @@ namespace CinemaProject_WPF.ViewModels
                     if (t.Time == "13:00-15:00" && RadioButton1) DisableSeats(t);
                     else if (t.Time == "16:00-18:00" && RadioButton2) DisableSeats(t);
                     else if (t.Time == "20:00-22:00" && RadioButton3) DisableSeats(t);
-                    else EnableSeats(t);
                 }
+                else EnableSeats(t);
             }
         }
         public void EnableSeats(Ticket ticket)
         {
-            //foreach (var item in CheapSeats) if(item.IsEnabled == false) item.IsEnabled = true;
-            //foreach (var item in ExpensiveSeats) if (item.IsEnabled == false) item.IsEnabled = true;
-
             foreach (var item in ticket.TicketNumbers)
             {
                 if (CheapSeats.Exists(s => s.Content.ToString() == item.ToString()))
@@ -215,7 +212,7 @@ namespace CinemaProject_WPF.ViewModels
             BuyTicketCommand = new RelayCommand((e) =>
             {
                 var result = MessageBox.Show($"Do you want to buy this ticket for {Total}₼ ?", "Message", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if(result == MessageBoxResult.Yes)
+                if (result == MessageBoxResult.Yes)
                 {
                     Ticket ticket = new Ticket();
                     ticket.MovieName = movieTitle;
@@ -237,13 +234,11 @@ namespace CinemaProject_WPF.ViewModels
 
             RadioButtonCheckedCommand = new RelayCommand((e) =>
             {
-                //EnableSeats();
                 CheckTickets(movieTitle);
             });
 
             SelectedDateChangedDateCommand = new RelayCommand((e) =>
             {
-                //EnableSeats();
                 CheckTickets(movieTitle);
             });
 
